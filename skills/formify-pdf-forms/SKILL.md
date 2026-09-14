@@ -156,10 +156,10 @@ The three rules that most often produce a document that looks perfect and does n
 - **One scan trigger per person.** Putting the trigger on every capture field gives the
   signer one scan button per field.
 
-### 5. Produce the PDF — try in this order, never refuse
+### 5. Produce the PDF — climb this ladder, never refuse
 
-Use whatever this environment actually offers, in descending order of quality. Say which
-one you used.
+Use the best that this environment actually offers, in this order, and say which rung you
+used. No rung is a precondition; every one ends in something the user can act on.
 
 **If the user brought their own PDF, do not rebuild it.** Add fields to their file and change
 nothing else — their wording was approved by someone, their letterhead is theirs, and a redrawn
@@ -170,24 +170,42 @@ For a document being written from scratch:
 
 1. **A document-authoring capability available here** — use it, and set the field flags
    explicitly rather than trusting defaults.
-2. **A PDF library, if code execution is available.** Write the code yourself against a
-   **closed list**: `reportlab`, `pypdf`, `pdfplumber`, `pypdfium2`, `pillow`. Then render a
-   page to an image and look at it; a PDF that opens is not a PDF that is correct.
+2. **A PDF library that is already present**, where code can run. Write the code yourself
+   against a **closed list**: `reportlab`, `pypdf`, `pdfplumber`, `pypdfium2`, `pillow`. Try
+   the import before relying on it. Then render a page to an image and look at it; a PDF
+   that opens is not a PDF that is correct.
 
-   **Never run an installer.** Not `pip`, not `uv`, not `npm`, not `brew`, not a virtual
-   environment — and not even when it would obviously succeed. Whatever you install exists
-   only on the machine you happen to be on. The person this document is for is in a container
-   with no internet, where nothing can be installed, so code that needed an install is code
-   that fails for them with no error you will ever see. The same goes for a browser,
-   WeasyPrint, wkhtmltopdf or any HTML-to-PDF converter.
+   **`pymupdf` / `fitz` is forbidden** even where it is already present: its AGPL licence is
+   not one this product can ship under. **So is every HTML-to-PDF route** — a headless
+   browser, WeasyPrint, wkhtmltopdf: a browser's print flattens every field into ink, and
+   not one of them exists in every place this skill runs.
+3. **The Python standard library alone**, when the list is missing but a Python interpreter
+   of any version answers. Open `references/stdlib-pdf.md` and use its recipe: a real
+   AcroForm — text fields, checkboxes, dropdowns — with no import outside the standard
+   library, on a bare Mac with the developer tools as much as in a sandbox. Its limit is the
+   font: Helvetica in WinAnsi, so page text and typed values are confined to Western
+   European characters (`š ž å ä ö é` yes; `č ć đ ł ř` no) and there are no images. Where
+   the document fits inside that, this rung *is* the finished PDF.
+4. **An isolated install, only after the user's explicit yes.** This is the one place an
+   installer may run, and only when all of these hold:
+   - Rung 3 cannot carry the document — glyphs outside WinAnsi, an image, a letterhead — or
+     the user asked for more than plain text.
+   - A Python interpreter already exists. Python itself is never installed, and neither is a
+     browser, a system package, or anything through `brew`, `apt` or `winget`.
+   - You asked in one line, naming exactly what goes where — *"I would install `reportlab`
+     and `pypdf` into a folder next to this document. It touches nothing else on this
+     computer. Go ahead?"* — and the user said yes **to that question, in this
+     conversation**. "Use whatever you need", said before the question existed, is not a yes.
+   - The install is isolated: a virtual environment in the working folder. Never the system
+     interpreter, never `--user`, never a global tool.
 
-   **`pymupdf` / `fitz` is forbidden** even where it is already present: it is not in that
-   container, and its AGPL licence is not one this product can ship under.
-
-   If something on the list is genuinely missing, go to option 3. Degrade; do not install.
-3. **Hand over the document plus a complete field specification** — the text, and for every
-   field its label, kind, options, required flag and any `tink-*` attributes. This is a real
-   deliverable: someone else, or another tool, can finish it, and nothing has been lost.
+   What you install exists only on this machine and in this session. Say so, so nobody is
+   surprised when a later run somewhere else lands on rung 3 or 5.
+5. **Hand over the document plus a complete field specification**, in the fixed shape in
+   `references/hand-over.md`: the full text, one row per field, the signature areas, and the
+   one step that remains. This is a real deliverable — another person or another tool
+   finishes it, and nothing has been lost. On a computer with no Python at all, which is
+   every Windows PC out of the box, this is the whole result, and it is a good one.
 
 Never end at "I cannot make a PDF here." End at the best artifact this environment can
 produce, and name the one step that remains.
@@ -238,7 +256,8 @@ into some other chatbot. Whether the account has it is checked at sending time, 
 | A signer cannot type their name | Characters typed into a field are limited to the WinAnsi set: `š ž å ä ö é` work, `č ć đ ł ř` do not | Warn before the document is finalised. Page text has no such limit. |
 | Two fields fill at once | They share a name | Rename. Uniqueness is per document. |
 | An accented character is missing from the page | The font lacks that glyph | Choose a family that covers the language, and say which. |
-| No way to produce a PDF here | The environment has no renderer | Step 5, option 3. Deliver the specification; do not claim a PDF was made. |
+| A library from the list is missing | This is not Anthropic's sandbox: a user's own machine, or another vendor's | Rung 3 first. Rung 4 only after an explicit yes to a named list. Never a system-wide install. |
+| No way to produce a PDF here | No renderer, no library, and no Python | Step 5, rung 5. Deliver the specification in the fixed shape; do not claim a PDF was made. |
 
 ## References
 
@@ -248,6 +267,12 @@ into some other chatbot. Whether the account has it is checked at sending time, 
   an attribute from memory.
 - **`references/signature-space.md`** — how much room a signature needs and how placement is
   chosen at sending time. Open it when the user wants the signature in a specific position.
+- **`references/stdlib-pdf.md`** — the standard-library recipe for rung 3: a fillable PDF with
+  text fields, checkboxes and dropdowns from any Python, nothing installed, and how to check it.
+  Open it the moment an import from the closed list fails.
+- **`references/hand-over.md`** — the fixed shape of the text-plus-specification deliverable
+  for rung 5, and the companion to every PDF built on rung 3 or 4. Open it whenever no PDF can
+  be written here.
 - **`references/existing-pdf.md`** — adding fields to a PDF the user already has: the merging
   trap that silently drops every field, page-pointer repair, appearance streams, embedding a
   font that can hold Croatian or Polish characters, finding coordinates from the text, covering
