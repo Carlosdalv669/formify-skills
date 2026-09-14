@@ -39,12 +39,13 @@ means re-laying out the page.
 
 ## Where to put it
 
-**A new page at the end is the safe default**, and it is what Formify does unless told
-otherwise. Nothing collides, the page size is known, and no existing content is at risk.
+**A document that carries captions places its signatures under them**, on the existing page,
+with placement *existing* and the rectangle under each caption. Asking for a new page for
+such a document leaves the captions over empty space and puts the fields on a page of their
+own. The new page at the end is the right default only for a document with no captions, or
+when the caption's page has no room left.
 
-Place signatures on an existing page only when the document's own convention requires it —
-a contract whose signature block sits directly under the final clause, a form with a
-designated footer. Then:
+When the signatures go on an existing page:
 
 - Keep the block clear of anything the signer must read. A signature field is fully opaque
   and hides whatever is behind it.
@@ -72,3 +73,32 @@ Köpare / Buyer
 ```
 
 Do not create two separate signature areas for two languages. One person signs once.
+
+## Finding the rectangle under a caption
+
+Formify's coordinates have their origin at the top-left corner of the page, `y` increasing
+downward, whole points, pages numbered from zero (`formify-send-contract` has the full
+system). Text-extraction libraries report the caption's baseline from the bottom-left. The
+box starts a small gap below the caption:
+
+```python
+from pypdf import PdfReader
+CAPTIONS = ["VENDEDORA", "COMPRADORA"]     # the caption text as drawn, one per signer
+W, H, GAP = 219, 58, 6                     # Formify signature field at full size
+boxes = []
+for pno, page in enumerate(PdfReader("document.pdf").pages):
+    height = float(page.mediabox.height); hits = []
+    def visit(text, cm, tm, font_dict, font_size):
+        t = text.strip()
+        for c in CAPTIONS:
+            if t.startswith(c): hits.append((c, tm[4], tm[5]))   # x, baseline y (bottom-left)
+    page.extract_text(visitor_text=visit)
+    for c, x, y in hits:
+        boxes.append({"caption": c, "page": pno, "x": round(x),
+                      "y": round(height - y + GAP), "width": W, "height": H})
+```
+
+With `pdfplumber`, `page.search(caption)` returns `x0` and `bottom` already measured from the
+top, so `y = round(bottom + GAP)`. Either way: whole numbers, one box per signer, an ID-scan
+box of 218 × 138 beside the signature where the method needs it, and a look at the rendered
+preview before sending.

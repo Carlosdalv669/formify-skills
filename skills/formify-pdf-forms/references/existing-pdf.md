@@ -19,17 +19,18 @@ what they sent is a scan with no text layer and they agree to a rebuild.
 
 ## What the environment gives you
 
-A closed list: `reportlab`, `pypdf`, `pdfplumber`, `pypdfium2`, `pillow`. Assume **no browser
-and no network**. So:
+The closed list from `SKILL.md` step 5: `reportlab`, `pypdf`, `pdfplumber`, `pypdfium2`,
+`pillow`. Try each import before relying on it. So:
 
 - **Write the code yourself.** These libraries are enough to do everything below; you do not
   need a recipe to copy, you need to know which traps are there.
-- **Never run an installer** — no `pip`, `uv`, `npm`, `brew` or virtual environment, and not
-  even where it would succeed. What you install exists only on the machine you are on; the
-  person receiving this document is in a container where nothing can be installed.
-- **`pymupdf` / `fitz` is forbidden** even when already present: absent from that container,
-  and AGPL.
-- **No headless browser and no HTML-to-PDF converter.**
+- **No installer without the user's explicit yes** to a named list of packages in a named
+  folder, and never Python itself, a browser or a system package. The whole rule, with the
+  standard-library rung that needs no install at all, is step 5 of `SKILL.md`. What you
+  install exists only on this machine and in this session.
+- **`pymupdf` / `fitz` is forbidden** even when already present: AGPL.
+- **No headless browser and no HTML-to-PDF converter.** A browser's print flattens every
+  field into ink.
 - Verify by **rendering a page to an image and looking at it**. A PDF that opens is not a PDF
   that is correct.
 
@@ -87,6 +88,53 @@ Two things to be careful about:
 - **A field sits under its label, not on it.** Place it at
   `label_y − label_font_size − gap − field_height`, with a gap of three to five points. A field
   drawn at the label's own baseline covers the label, and Formify's fields are opaque.
+
+## A widget inside a table cell, placed afterwards
+
+Layout libraries draw tables; few of them put a form widget inside a cell. Draw the table
+with the cell empty, then add the widget by the cell's coordinates. With `pypdf` (tested on
+6.18, reads back with the right names and flags):
+
+```python
+from pypdf import PdfReader, PdfWriter
+from pypdf.generic import (ArrayObject, BooleanObject, DictionaryObject, FloatObject,
+                           NameObject, NumberObject, TextStringObject)
+
+# name, page (0-based), x, y, width, height, required  —  points, PDF origin bottom-left
+FIELDS = [("titular_nif", 0, 206, 300, 100, 18, True),
+          ("buyer_id|tink-scan-id[1]", 0, 206, 160, 180, 120, True)]
+
+w = PdfWriter(clone_from="document.pdf")
+root = w._root_object
+if "/AcroForm" not in root:
+    root[NameObject("/AcroForm")] = w._add_object(DictionaryObject())
+acro = root["/AcroForm"].get_object()
+acro[NameObject("/NeedAppearances")] = BooleanObject(True)
+acro.setdefault(NameObject("/Fields"), ArrayObject())
+for name, pno, x, y, wd, ht, required in FIELDS:
+    page = w.pages[pno]
+    widget = DictionaryObject({
+        NameObject("/Type"): NameObject("/Annot"), NameObject("/Subtype"): NameObject("/Widget"),
+        NameObject("/FT"): NameObject("/Tx"), NameObject("/T"): TextStringObject(name),
+        NameObject("/Ff"): NumberObject(2 if required else 0), NameObject("/F"): NumberObject(4),
+        NameObject("/Rect"): ArrayObject([FloatObject(x), FloatObject(y),
+                                          FloatObject(x + wd), FloatObject(y + ht)]),
+        NameObject("/DA"): TextStringObject("/Helv 10 Tf 0 g"),
+        NameObject("/P"): page.indirect_reference,
+    })
+    ref = w._add_object(widget)
+    if "/Annots" in page: page["/Annots"].get_object().append(ref)
+    else: page[NameObject("/Annots")] = ArrayObject([ref])
+    acro["/Fields"].append(ref)
+w.write("document-fields.pdf")
+```
+
+Three things this gets right that a naive overlay loses: the widget is in the page's
+`/Annots`, in `/AcroForm /Fields`, and carries `/P` to its own page. A read-only trigger adds
+`1` to `/Ff`; an image-capture field is sized to the rectangle it will be stretched into.
+Widths that fit the boxes: 180 pt for a name, an address or an e-mail; 100 pt for a tax
+number; 90 pt for a fee or a share; 300 pt for a full-width row. A field wider than its cell
+covers the cell next to it.
 
 ## Replacing text that is already printed
 

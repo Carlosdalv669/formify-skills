@@ -63,6 +63,23 @@ const skillPlace = (path, field) => {
   };
 };
 
+// The one body mention that is a declared place: the line under the H1 that a skill quotes
+// when a user asks which version it is. Absent line = drift, so every skill must carry it.
+const BODY = /^(Version )(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)(\. If asked which version you are, quote this line\.)$/m;
+const skillBodyPlace = (path) => ({
+  path,
+  where: "version line under the title",
+  read() {
+    const m = readFileSync(path, "utf8").match(BODY);
+    return m ? m[2] : null;
+  },
+  write(v) {
+    const text = readFileSync(path, "utf8");
+    if (!BODY.test(text)) { note(`${path}: no version line under the title`); return; }
+    writeFileSync(path, text.replace(BODY, `$1${v}$3`));
+  },
+});
+
 // A field may carry one `*` segment, which fans out over an array. Every marketplace entry
 // has its own version, and a list would silently miss the next one added.
 function expand(entry) {
@@ -81,7 +98,7 @@ function places() {
     for (const d of readdirSync(dir, { withFileTypes: true })) {
       if (!d.isDirectory()) continue;
       const p = join(dir, d.name, file);
-      if (existsSync(p)) out.push(skillPlace(p, cfg.skills.field));
+      if (existsSync(p)) { out.push(skillPlace(p, cfg.skills.field)); out.push(skillBodyPlace(p)); }
       else note(`${p}: declared by ${CONFIG} but missing`);
     }
   }

@@ -8,6 +8,8 @@ metadata:
 
 # Send a document for signature
 
+Version 1.2.0. If asked which version you are, quote this line.
+
 ## Purpose
 
 Take a document — a saved Formify template, a PDF the user has, or one drafted here — place

@@ -72,6 +72,17 @@
         "The signature area is described as empty space with a caption, never as a form field",
         "OIB is a text field, not something the user is asked to type into the chat"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Make a fillable invoice-approval form. Fee 5 % of 40,000 EUR, plus VAT, approver signs at the bottom with the date.",
+      "expected_output": "A form that prints the fee as given without computing the amount or the VAT, puts the signer's values in their own cells as required fields, and reserves an empty signature space without a date field beside it.",
+      "assertions": [
+        "No computed amount or VAT figure appears; the percentage and the base are printed as given",
+        "Every value the approver fills in is a field in its own cell, once, with the required flag set",
+        "There is no date field next to the signature area, and the reply says Formify stamps the signature",
+        "The signature area is empty space with a caption"
+      ]
     }
   ]
 }

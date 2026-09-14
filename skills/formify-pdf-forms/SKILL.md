@@ -8,6 +8,8 @@ metadata:
 
 # Build a PDF form
 
+Version 1.2.0. If asked which version you are, quote this line.
+
 ## Purpose
 
 Produce a PDF that a person can fill in and sign: clean layout, real AcroForm fields, and —
@@ -118,6 +120,12 @@ control accepts an attachment; it does not enforce what kind.
 which sections. Draft the text first and confirm it before touching fields — a field is
 cheap to add and expensive to add to the wrong sentence.
 
+**Print what was given, once, and never derive.** Percentages, amounts, dates and terms appear
+exactly as the user gave them, once, in the box that holds them; the clauses refer to the box.
+Never compute a figure from another (a fee from a price, VAT, a share), never repeat a figure
+outside its box, and never invent a document reference, a register number, a deadline or a
+date. Ask, or leave it as a field.
+
 **From an existing PDF.** Read what is already there before changing anything. Report what
 you found: how many pages, which fields already exist, which are read-only. If the PDF has
 **no fields at all**, say so — that is the answer, and it means the document goes through
@@ -135,6 +143,15 @@ at least one option; a radio group needs at least two.
 
 **Every field name must be unique in the document.** Two fields sharing a name are one field
 to Formify — two boxes both called `Date` fill from a single keystroke.
+
+**A value the signer fills in is a field in its own cell, exactly once.** Never a placeholder
+such as *[to be completed]* printed in the cell with the field placed somewhere else, and never
+the same value as a field twice. When a library cannot put a widget inside a table cell, place
+it afterwards by the cell's coordinates: the recipe is in `references/existing-pdf.md`.
+
+**A field the signer must complete is required**, unless the calling skill says otherwise. Set
+the flag on the widget explicitly; a field with no flag is optional, and the signer can sign
+around it.
 
 ### 4. Add Formify features only where the user asked
 
@@ -210,14 +227,27 @@ For a document being written from scratch:
 Never end at "I cannot make a PDF here." End at the best artifact this environment can
 produce, and name the one step that remains.
 
+**A bilingual document is two columns**, master language left, translation right, the same
+clause on the same row. Build the clause table one clause per row and let rows break between
+pages; never stack the translation under the master because a row ran long. Only the hand-over
+(rung 5) may list clauses stacked, master then translation, and it says so. The table recipe is
+in `references/bilingual-table.md`.
+
 ### 6. Leave the signature space empty
 
 A signature is never a form field. Formify paints its signing overlay in that area, and a
 widget or a printed line collides with it.
 
 Reserve vertical space with a caption — `Buyer` / `Köpare` — and nothing else. No box, no
-line, no underscores. Where the signature actually lands is decided when the document is
-sent; see `references/signature-space.md` if the user wants it in a specific place.
+line, no underscores, and **no date field next to a signature**: Formify stamps the date and
+time of each signature, and a hand-filled date contradicts the stamp.
+
+**Where the signature lands is decided by where the caption was drawn.** When the document is
+produced here, record the rectangle under each caption (page, x, y from the top-left corner,
+whole points) and hand it to `formify-send-contract` as the signature box with placement
+*existing*. Never ask for a new page for a document that carries captions: the captions then
+stand over empty space and the fields land on a page of their own. `references/signature-space.md`
+gives the sizes and the recipe that finds each caption by text and returns its rectangle.
 
 ### 7. Check it before handing it over
 
@@ -227,6 +257,10 @@ sent; see `references/signature-space.md` if the user wants it in a specific pla
   rectangle exactly, so a portrait in a wide one-line box renders as a smeared face.
 - No radio option containing `/` — the slash corrupts the stored value.
 - Signature areas empty.
+- Every page rendered to an image and looked at, not only the first.
+- Text extracted: every clause has a body in every language column; no cell is a heading only.
+- The number of fields in the file equals the number in the field list, and every one carries
+  the required flag the list says it should.
 
 ### 8. Offer the next step
 
@@ -254,6 +288,9 @@ into some other chatbot. Whether the account has it is checked at sending time, 
 | A `tink-*` attribute does nothing, no error | It is not in the catalogue, or the brackets are missing | Check `references/tink-attributes.md`. There is no error path — silence is the failure. |
 | A scan button is not clickable | The trigger is missing its paired value field, or the read-only flag is not set on the widget | Pair it; set the flag on the field itself. |
 | A signer cannot type their name | Characters typed into a field are limited to the WinAnsi set: `š ž å ä ö é` work, `č ć đ ł ř` do not | Warn before the document is finalised. Page text has no such limit. |
+| A cell shows *[to be completed]* and the field sits elsewhere | The widget was not placed in the cell | Step 3: place the widget in the cell by its coordinates and remove the placeholder. |
+| Captions on one page, signature fields on another | A new page was requested for a document that carries captions | Step 6: compute the rectangles under the captions and send placement *existing*. |
+| An amount in the document the user never said | A figure was derived | Step 2: print what was given, once, and refer to the box. |
 | Two fields fill at once | They share a name | Rename. Uniqueness is per document. |
 | An accented character is missing from the page | The font lacks that glyph | Choose a family that covers the language, and say which. |
 | A library from the list is missing | This is not Anthropic's sandbox: a user's own machine, or another vendor's | Rung 3 first. Rung 4 only after an explicit yes to a named list. Never a system-wide install. |
@@ -273,6 +310,9 @@ into some other chatbot. Whether the account has it is checked at sending time, 
 - **`references/hand-over.md`** — the fixed shape of the text-plus-specification deliverable
   for rung 5, and the companion to every PDF built on rung 3 or 4. Open it whenever no PDF can
   be written here.
+- **`references/bilingual-table.md`** — the two-column clause table: one clause per row in both
+  languages, rows breaking between pages, and when stacking is allowed. Open it for any document
+  with a translation column.
 - **`references/existing-pdf.md`** — adding fields to a PDF the user already has: the merging
   trap that silently drops every field, page-pointer repair, appearance streams, embedding a
   font that can hold Croatian or Polish characters, finding coordinates from the text, covering

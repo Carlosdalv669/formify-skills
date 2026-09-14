@@ -8,6 +8,8 @@ metadata:
 
 # Verify who is signing
 
+Version 1.2.0. If asked which version you are, quote this line.
+
 ## Purpose
 
 Bind a signature to a verified person or company. Formify can check an identity document,

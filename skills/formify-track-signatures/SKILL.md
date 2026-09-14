@@ -8,6 +8,8 @@ metadata:
 
 # After the document was sent
 
+Version 1.2.0. If asked which version you are, quote this line.
+
 ## Purpose
 
 Everything that happens between sending a document and having it signed: finding it,
