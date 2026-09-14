@@ -76,8 +76,24 @@ in its `{{variables}}`. The flag says when a clause applies.
 - en: 11. Language. This agreement is signed in Spanish and in {{idioma_cliente_tr}}. In the event of any discrepancy between the two versions, the Spanish version shall prevail.
 
 ### ENC-12 · Derecho de desistimiento
-- applies: statutory, reproduced verbatim from `es-withdrawal.md`, never edited | optional: consumer client signing at a distance or off-premises
-- variables: {{dias_desistimiento}} (14, or 30 after an unsolicited home visit), {{agencia_nombre}}, {{agencia_direccion}}, {{agencia_telefono}}, {{agencia_email}}
+- applies: statutory, verbatim — reproduced from the law, never edited (optional desistimiento: only when the client is a consumer signing away from the agency premises (distance or off-premises contract): statutory right of withdrawal)
+- variables: {{agencia_direccion}}, {{agencia_email}}, {{agencia_nombre}}, {{agencia_telefono}}, {{dias_desistimiento}}
+- es: Derecho de desistimiento:
+   Tiene usted derecho a desistir del presente contrato en un plazo de {{dias_desistimiento}} días naturales sin necesidad de justificación.
+   El plazo de desistimiento expirará a los {{dias_desistimiento}} días naturales del día de la celebración del contrato.
+   Para ejercer el derecho de desistimiento, deberá usted notificarnos ({{agencia_nombre}}, {{agencia_direccion}}, teléfono {{agencia_telefono}}, correo electrónico {{agencia_email}}) su decisión de desistir del contrato a través de una declaración inequívoca (por ejemplo, una carta enviada por correo postal, fax o correo electrónico). Podrá utilizar el modelo de formulario de desistimiento que figura a continuación, aunque su uso no es obligatorio.
+   Para cumplir el plazo de desistimiento, basta con que la comunicación relativa al ejercicio por su parte de este derecho sea enviada antes de que venza el plazo correspondiente.
+   Consecuencias del desistimiento:
+   En caso de desistimiento por su parte, le devolveremos todos los pagos recibidos de usted, incluidos los gastos de entrega (con la excepción de los gastos adicionales resultantes de la elección por su parte de una modalidad de entrega diferente a la modalidad menos costosa de entrega ordinaria que ofrezcamos) sin ninguna demora indebida y, en todo caso, a más tardar 14 días naturales a partir de la fecha en la que se nos informe de su decisión de desistir del presente contrato. Procederemos a efectuar dicho reembolso utilizando el mismo medio de pago empleado por usted para la transacción inicial, a no ser que haya usted dispuesto expresamente lo contrario; en todo caso, no incurrirá en ningún gasto como consecuencia del reembolso.
+   Si usted ha solicitado que la prestación de servicios dé comienzo durante el período de desistimiento, nos abonará un importe proporcional a la parte ya prestada del servicio en el momento en que nos haya comunicado su desistimiento, en relación con el objeto total del contrato.
+- en: Right of withdrawal:
+   You have the right to withdraw from this contract within {{dias_desistimiento}} days without giving any reason.
+   The withdrawal period will expire after {{dias_desistimiento}} days from the day of the conclusion of the contract.
+   To exercise the right of withdrawal, you must inform us ({{agencia_nombre}}, {{agencia_direccion}}, telephone {{agencia_telefono}}, e-mail {{agencia_email}}) of your decision to withdraw from this contract by an unequivocal statement (e.g. a letter sent by post, fax or e-mail). You may use the attached model withdrawal form, but it is not obligatory.
+   To meet the withdrawal deadline, it is sufficient for you to send your communication concerning your exercise of the right of withdrawal before the withdrawal period has expired.
+   Effects of withdrawal:
+   If you withdraw from this contract, we shall reimburse to you all payments received from you, including the costs of delivery (with the exception of the supplementary costs resulting from your choice of a type of delivery other than the least expensive type of standard delivery offered by us), without undue delay and in any event not later than 14 days from the day on which we are informed about your decision to withdraw from this contract. We will carry out such reimbursement using the same means of payment as you used for the initial transaction, unless you have expressly agreed otherwise; in any event, you will not incur any fees as a result of such reimbursement.
+   If you requested to begin the performance of services during the withdrawal period, you shall pay us an amount which is in proportion to what has been provided until you have communicated us your withdrawal from this contract, in comparison with the full coverage of the contract.
 
 ### ENC-13 · Solicitud expresa de inicio del servicio
 - applies: optional: same condition as ENC-12, verbatim
@@ -92,8 +108,24 @@ in its `{{variables}}`. The flag says when a clause applies.
 - en: In witness whereof, the parties sign this agreement electronically on the date stated in the heading.
 
 ### ENC-15 · Formulario de desistimiento (Anexo)
-- applies: statutory, reproduced verbatim from `es-withdrawal.md`, never edited | optional: same condition as ENC-12
-- variables: {{agencia_nombre}}, {{agencia_direccion}}, {{agencia_email}}, {{inmueble_direccion}}, {{fecha_larga}}, {{fecha_larga_tr}}
+- applies: statutory, verbatim — reproduced from the law, never edited (optional desistimiento_anexo: same condition as desistimiento: the statutory withdrawal form, reproduced verbatim from the law)
+- variables: {{agencia_direccion}}, {{agencia_email}}, {{agencia_nombre}}, {{fecha_larga_tr}}, {{fecha_larga}}, {{inmueble_direccion}}
+- es: (sólo debe cumplimentar y enviar el presente formulario si desea desistir del contrato)
+   – A la atención de {{agencia_nombre}}, {{agencia_direccion}}, correo electrónico {{agencia_email}}:
+   – Por la presente le comunico/comunicamos (*) que desisto de mi/desistimos de nuestro (*) contrato de venta del siguiente bien/prestación del siguiente servicio (*): contrato de mediación inmobiliaria relativo al inmueble sito en {{inmueble_direccion}}
+   – Pedido el/recibido el (*): {{fecha_larga}}
+   – Nombre del consumidor y usuario o de los consumidores y usuarios: 
+   – Domicilio del consumidor y usuario o de los consumidores y usuarios: 
+   – Firma del consumidor y usuario o de los consumidores y usuarios (solo si el presente formulario se presenta en papel): 
+   – Fecha: 
+   (*) Táchese lo que no proceda.
+- en: (complete and return this form only if you wish to withdraw from the contract)
+   – To {{agencia_nombre}}, {{agencia_direccion}}, e-mail {{agencia_email}}:
+   – I/We (*) hereby give notice that I/We (*) withdraw from my/our (*) contract of sale of the following goods (*)/for the provision of the following service (*): brokerage agreement concerning the property located at {{inmueble_direccion}}
+   – Ordered on (*)/received on (*): {{fecha_larga_tr}}
+   – Name of consumer(s): 
+   – Address of consumer(s): 
+   – Signature of consumer(s) (only if this form is notified on paper): 
+   – Date: 
+   (*) Delete as appropriate.
 
-For a letting, "venta" becomes "arrendamiento" and the price becomes the monthly rent; the
-clauses stand.
