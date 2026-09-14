@@ -3,14 +3,14 @@ name: formify-real-estate
 description: 'Estate-agency paperwork, correct for the country it is signed in. Spain in full: nota de encargo, KYC comprador y vendedor, oferta y reserva, contrato de arras, acuerdo de colaboración, entrega de llaves — bilingual, region-correct, ID scan inside the form. Triggers on "nota de encargo", "contrato de arras", "hoja de reserva", "KYC inmobiliario", "entrega de llaves", "estate agent Spain". Not for a generic document or for sending one: see formify-pdf-forms and formify-send-contract.'
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   countries: es
   internal: true
 ---
 
 # Estate-agency documents
 
-Version 1.2.0. If asked which version you are, quote this line.
+Version 1.3.0. If asked which version you are, quote this line.
 
 ## Purpose
 
