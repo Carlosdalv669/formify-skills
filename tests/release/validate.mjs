@@ -105,14 +105,8 @@ export function checkRoot(root) {
   // Codex budgets the whole installed skill list at min(2% of context, 8000 characters)
   // and shortens descriptions first.
   //
-  // MEASURED 2026-09-11, tests/release/codex-smoke.mjs, Codex CLI 0.153.4, default model,
-  // with ONLY these five skills in .agents/skills and no user config, apps or plugins:
-  //   "Skill descriptions were shortened to fit the skills context budget. Codex can still
-  //    see every skill, but some descriptions are shorter."
-  // That fired at a 2,276-character total, so the effective ceiling on that model is the
-  // 2%-of-context arm, not the 8,000 one, and we are already over it with nothing else
-  // installed. The gate below is deliberately still loose: trimming the descriptions is a
-  // product decision about trigger coverage, not something a checker should force.
+  // The gate below leaves room for other installed skills. Description truncation
+  // depends on the model context budget as well as the total installed catalogue.
   // Whether a truncated description still triggers is semantic; prefix60 stays recorded
   // for human review, as the README says.
   const budget = { total: inventory.reduce((n, s) => n + s.descriptionCharacters, 0), limit: 8000 };

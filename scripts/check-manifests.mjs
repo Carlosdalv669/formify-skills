@@ -20,7 +20,7 @@ const NAME = root.name;
 
 // A sector skill is one whose frontmatter declares the countries it covers. The core
 // plugin must never list one: a construction engineer installs the construction plugin
-// and pays no context for real estate. Sector plugins bundle the capability skills so
+// and loads only its relevant domain. Sector plugins bundle the capability skills so
 // they still work on their own.
 const isSector = (skill) => {
   const t = readFileSync(join("skills", skill, "SKILL.md"), "utf8");

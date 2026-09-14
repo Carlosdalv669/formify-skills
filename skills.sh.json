@@ -3,13 +3,6 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Estate agency",
-      "description": "The documents a property agency signs, correct for the country.",
-      "skills": [
-        "formify-real-estate"
-      ]
-    },
-    {
       "title": "Prepare a document",
       "description": "Works without a Formify account.",
       "skills": [

@@ -37,7 +37,6 @@ Manus, Cursor and around twenty other agents.
 
 - [Why this exists](#why-this-exists)
 - [The skills](#the-skills)
-- [The estate-agency pack](#the-estate-agency-pack)
 - [What you can ask for](#what-you-can-ask-for)
 - [What the agent can actually do](#what-the-agent-can-actually-do)
 - [The whole process, not one document](#the-whole-process-not-one-document)
@@ -155,7 +154,6 @@ at a time, by hand, and the connector separately.
    | `formify-send-contract.zip` | sending a document for signature |
    | `formify-verify-identity.zip` | BankID, ID scan, face liveness, company lookup |
    | `formify-track-signatures.zip` | chasing, correcting and cancelling what you sent |
-   | `formify-real-estate.zip` | the six documents a Spanish estate agency signs — take this one only if that is your work |
 
    Do not unzip them — they are already in the shape Claude expects.
 3. Open **Customize → Skills**, then **Create skill → Upload a skill**, and choose one ZIP.
@@ -215,18 +213,11 @@ after the other, not pasted together.
 
 Unlike the Desktop app's marketplace dialog, this takes any public repository.
 
-**Or install the estate-agency pack instead**, which carries the same four skills plus the
-Spanish document set. Install one or the other, not both:
-
-```
-/plugin install formify-real-estate@formify
-```
-
 **Codex CLI**
 
 ```bash
 codex plugin marketplace add formify-e-sign/formify-skills
-codex plugin add formify@formify          # or formify-real-estate@formify
+codex plugin add formify@formify
 ```
 
 `codex plugin list` shows the result, and `codex plugin marketplace upgrade` pulls a newer
@@ -240,9 +231,7 @@ default, so a new version reaches you only when you ask for it:
 /plugin marketplace update formify
 ```
 
-Turn it on for good in `/plugin` → **Marketplaces** → **Enable auto-update**. New plugins —
-a new sector pack, say — appear in your list after that same refresh, and you still choose
-whether to install them.
+Turn it on for good in `/plugin` → **Marketplaces** → **Enable auto-update**.
 
 ---
 
@@ -306,7 +295,7 @@ Complete the sign-in it asks for. Manus can now act on your Formify account.
 at the repository root, and ours live in `skills/`. So use the upload route instead: download
 the ZIPs from our [Releases page](https://github.com/formify-e-sign/formify-skills/releases)
 — one per skill — then **Skills → + Add → Upload a Skill** and choose one. Repeat for the
-rest. Take `formify-real-estate` only if you work in Spanish property.
+rest.
 
 These are the same ZIPs described under [If plugins are unavailable to you](#if-plugins-are-unavailable-to-you)
 — one skill per archive, with the skill folder as the top of the ZIP, which is the shape both
@@ -402,28 +391,6 @@ attaching a file and pressing send.
 
 Building and structuring a document happens in the conversation. Sending, signing and
 identity checks run through your Formify account.
-
----
-
-## The estate-agency pack
-
-Those four are horizontal: everyone signing anything needs them. On top of them sit **sector
-packs** — what one profession signs, correct for the country it is signed in.
-
-| Skill | What it does |
-|---|---|
-| **`formify-real-estate`** | The six documents a Spanish estate agency signs most: *nota de encargo*, KYC for buyer and seller, *oferta y reserva*, *contrato de arras*, an inter-agency collaboration agreement, and a key handover receipt. Bilingual — Spanish plus the client's language — and correct for the autonomous community: the register that is mandatory in two regions and voluntary in four, the civil law that flips the meaning of a deposit in Catalonia and Navarra, the statutory withdrawal text a private seller is owed. |
-
-It ships as **its own plugin**, `formify-real-estate`, which bundles the four capability
-skills as well. Install that one *or* `formify`, not both. A construction engineer who
-installs Formify never loads a word of Spanish property law, and that is the point of the
-split.
-
-Countries live inside the sector skill as reference files, not as separate plugins, so a
-second country is a folder rather than a second thing to install.
-
-The `tink-*` markers a document carries are read by Formify's signing client. In any other
-PDF viewer they are ordinary empty fields, so the document stays valid and usable on its own.
 
 ---
 
@@ -572,7 +539,6 @@ skills/                        the skills — the one canonical source
   formify-send-contract/
   formify-verify-identity/
   formify-track-signatures/
-  formify-real-estate/         sector: its own plugin, opt-in
 demo/                          the install recordings used on this page
 .agents/skills -> skills       symlink; most agents find the skills with no install
 plugin.json  mcp.json          Agent Plugins 1.0.0
