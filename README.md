@@ -134,6 +134,9 @@ documents, send them, collect signatures. The skills are what make it good at th
 
 You never name a skill. Describe the job and Claude picks the right one.
 
+**Every change to a skill is released and tagged**, so the version a skill quotes when asked is
+always one you can find on the Releases page.
+
 **Updating.** Select **Update** on the plugin whenever you want the newest version. With
 **Sync automatically** left on, Claude checks for you.
 

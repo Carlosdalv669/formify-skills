@@ -246,6 +246,8 @@ consistently. These are legal institutions with no exact equivalent — a transl
 misleads the client and weakens the Spanish master text. For a language not listed, follow the
 same rule and gloss in that language.
 
+In a Swedish column the insurance document is *försäkringsbrev*, never *polis*.
+
 | Spanish | English gloss | Swedish | Dutch | German |
 |---|---|---|---|---|
 | arras (penitenciales) | earnest money either party may forfeit or return doubled to withdraw | handpenning som ger båda parter rätt att frånträda | aanbetaling waarbij beide partijen kunnen afzien | Anzahlung mit Rücktrittsrecht beider Parteien |

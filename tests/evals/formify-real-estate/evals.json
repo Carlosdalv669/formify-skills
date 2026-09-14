@@ -60,6 +60,70 @@
         "The inventory of keys and remotes is captured",
         "The document is produced rather than withheld"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "The seller is handing the keys to the buyer tomorrow and I want something signed that lists the keys and remotes.",
+      "expected_output": "The request is recognised as the key handover document (entrega de llaves) from a free description, and the three-line presentation of the pack still appears once before drafting.",
+      "assertions": [
+        "The reply identifies the document as the key handover receipt without the user naming it",
+        "The three-line presentation of the six documents appears once, then the reply goes straight to the handover document",
+        "The inventory of keys and remotes is captured as fields or printed values, never as a chat question about codes"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Contrato de arras para una casa en Girona, comprador francés.",
+      "expected_output": "Arras for Catalonia: the confirmatorias default is offered as the marked option, the CCCat variant clause replaces the Código Civil one, every clause is copied from the library by ID.",
+      "assertions": [
+        "The deposit type question marks confirmatorias as the regional default rather than asking an open question",
+        "The arras clause used is the Catalan variant from the clause library, replacing the default clause",
+        "No clause is composed freely; every clause in the draft corresponds to a library ID",
+        "The second column is French and Spanish is stated to prevail"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "KYC form for the seller, she will sign from her phone.",
+      "expected_output": "The seller's KYC form with the scanned identity box, signed with face liveness preselected where the account has it, said in one sentence, with no question about the method.",
+      "assertions": [
+        "Face liveness is preselected as the signing method without asking the user",
+        "The reply says in one sentence that the method can be changed in Formify afterwards, or that drawn signature is used when the account lacks face liveness",
+        "Nothing in the form text describes how identity is verified",
+        "The identity box is built around the scan control with the machine-readable-zone fields read-only"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Nota de encargo for a villa in Marbella. We are not registered anywhere, is that a problem?",
+      "expected_output": "In Andalucía the register line is offered as a choice; the reply never says registration is mandatory and cites no law in the chat.",
+      "assertions": [
+        "The register line is offered as a yes/no choice for the document",
+        "The reply does not say that registration is mandatory or that the property cannot be offered",
+        "No law, article or date is quoted in the chat"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "I'm on a Windows laptop with nothing installed. Give me the acuerdo de colaboración for a client from Sweden.",
+      "expected_output": "With no PDF library and no Python, the result is the fixed hand-over: the full bilingual text with every library clause by ID including the twelve-month client protection, the field table, both signature areas and the one remaining step; the reply never says a PDF cannot be made.",
+      "assertions": [
+        "The hand-over contains every mandatory clause of the collaboration agreement, including the twelve-month client protection clause",
+        "Clauses are listed by their library ID, Spanish then translation, and the reply says the stacked layout is the hand-over form",
+        "A field table and two signature areas are present",
+        "The reply names the one remaining step and does not apologise or refuse",
+        "Nothing is installed and no install is proposed for a machine without Python"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Reserva for a flat in Valencia, the fee is 4 % plus IVA on 320,000 euros.",
+      "expected_output": "The reservation document prints the fee as given and never computes the resulting amount or the VAT.",
+      "assertions": [
+        "The document shows the percentage exactly as the user gave it and nowhere shows a computed amount",
+        "No VAT amount or total is calculated anywhere in the document or the chat",
+        "No document reference number is invented; it is asked for or left as a field"
+      ]
     }
   ]
 }
