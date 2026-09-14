@@ -309,6 +309,7 @@ job ended at the send.
 | What you see | What it means | What to do |
 |---|---|---|
 | Upload command blocked by network or allowlist | The environment blocks outbound requests to the upload host | Do not retry. Name the wall **and the door** — see below. Then use the URL route or base64. |
+| The allowlist already says "All domains" and the upload is still blocked | A known regression in Claude Code cloud and the Cowork VM (anthropics/claude-code #93562, open since 2026-09-11): the setting is not honoured there | Do not send the user back to the setting. Take the URL route or base64 in the same turn. |
 | A preview downloaded, but does not open | An HTML error page was saved under a `.pdf` name | Check for the `%PDF` header before showing anything. Fetch a fresh link and retry once. |
 | The preview link stopped working | It was consumed, or the draft was updated | Request a new one. Links are single-use and expire in ten minutes. |
 | More than 18 signers rejected | A document takes at most 18 signees | Split the signing across several documents. |
@@ -334,6 +335,10 @@ or connector settings carry a **domain allowlist**, and either adding the docume
 in the error or choosing the "all domains" option opens it. The host is entered as a bare
 hostname — no `https://`, no path, no trailing slash. After saving, the send can be retried
 from where it stopped; nothing already done is lost.
+
+If the user says the allowlist is already on "all domains" and the wall is still there, believe
+them: on Claude Code cloud and in the Cowork VM that setting is currently ignored (a regression
+reported 2026-09-11). Go to the URL route or base64 without another round trip.
 
 Offer the URL route in the same breath, because it needs no allowlist at all. Never paste the
 raw document-host download URL as a clickable link — it is machinery, not something a user
