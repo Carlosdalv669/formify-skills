@@ -3,12 +3,12 @@ name: formify-send-contract
 description: 'Send a contract or document for e-signature through Formify. Use when sending something to be signed, from a saved template, an uploaded PDF, or a document drafted in this conversation. Triggers on "send for signature", "send this contract", "e-sign", "signing request", "skicka för signering", "skicka kontrakt", "enviar para firmar". Not for checking who has signed afterwards: see formify-track-signatures.'
 license: MIT
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Send a document for signature
 
-Version 1.3.0. If asked which version you are, quote this line.
+Version 1.4.0. If asked which version you are, quote this line.
 
 ## Purpose
 

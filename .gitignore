@@ -49,3 +49,6 @@ CLAUDE.md
 
 # Local record of what shipped — not part of the published payload
 CHANGELOG.md
+
+# Locally built release ZIPs. The release workflow rebuilds them from skills/.
+dist/
