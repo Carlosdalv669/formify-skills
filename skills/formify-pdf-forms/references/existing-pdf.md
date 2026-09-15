@@ -29,8 +29,9 @@ The closed list from `SKILL.md` step 5: `reportlab`, `pypdf`, `pdfplumber`, `pyp
   standard-library rung that needs no install at all, is step 5 of `SKILL.md`. What you
   install exists only on this machine and in this session.
 - **`pymupdf` / `fitz` is forbidden** even when already present: AGPL.
-- **No headless browser and no HTML-to-PDF converter.** A browser's print flattens every
-  field into ink.
+- **Do not print or convert the user's PDF through HTML.** Add real AcroForm fields directly
+  to the original PDF. The fixed sector-template exception in `SKILL.md` step 5 applies
+  only to generating a document from a shipped template, never to rebuilding this file.
 - Verify by **rendering a page to an image and looking at it**. A PDF that opens is not a PDF
   that is correct.
 

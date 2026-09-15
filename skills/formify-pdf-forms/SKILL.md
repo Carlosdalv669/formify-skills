@@ -185,6 +185,17 @@ looks finished and carries no fields at all: open `references/existing-pdf.md` b
 
 For a document being written from scratch:
 
+**Sector-template exception takes precedence only for a sector skill that ships both a fixed
+template and its own rendering script: fill the existing template without composing or
+redesigning its HTML layout, and use that script to render it and then add real AcroForm
+fields with `pypdf`.** This is an optional route only where those files and code execution
+are available. The script may use an already-present Chrome, Edge, Chromium, WeasyPrint or
+wkhtmltopdf; it installs nothing. Its Python PDF dependencies are limited to already-present
+`pypdf` and `pdfplumber`. If the renderer or a required dependency is missing, use the closed
+library list below, then the standard-library route within its limits, then the hand-over
+with full text and field specification; this exception skips the install rung. Check the
+final fields and every page under step 7. All other documents follow the generic ladder:
+
 1. **A document-authoring capability available here** — use it, and set the field flags
    explicitly rather than trusting defaults.
 2. **A PDF library that is already present**, where code can run. Write the code yourself
@@ -193,9 +204,9 @@ For a document being written from scratch:
    that opens is not a PDF that is correct.
 
    **`pymupdf` / `fitz` is forbidden** even where it is already present: its AGPL licence is
-   not one this product can ship under. **So is every HTML-to-PDF route** — a headless
-   browser, WeasyPrint, wkhtmltopdf: a browser's print flattens every field into ink, and
-   not one of them exists in every place this skill runs.
+   not one this product can ship under. **The generic skill must never compose HTML and
+   print it to PDF.** HTML-to-PDF is permitted only by the sector-template exception above;
+   printed controls alone do not satisfy the requirement for real AcroForm fields.
 3. **The Python standard library alone**, when the list is missing but a Python interpreter
    of any version answers. Open `references/stdlib-pdf.md` and use its recipe: a real
    AcroForm — text fields, checkboxes, dropdowns — with no import outside the standard
@@ -203,8 +214,8 @@ For a document being written from scratch:
    font: Helvetica in WinAnsi, so page text and typed values are confined to Western
    European characters (`š ž å ä ö é` yes; `č ć đ ł ř` no) and there are no images. Where
    the document fits inside that, this rung *is* the finished PDF.
-4. **An isolated install, only after the user's explicit yes.** This is the one place an
-   installer may run, and only when all of these hold:
+4. **An isolated install, only for the generic route and after the user's explicit yes.**
+   Sector-template workflows skip this rung. An installer may run only when all of these hold:
    - Rung 3 cannot carry the document — glyphs outside WinAnsi, an image, a letterhead — or
      the user asked for more than plain text.
    - A Python interpreter already exists. Python itself is never installed, and neither is a
@@ -293,7 +304,7 @@ into some other chatbot. Whether the account has it is checked at sending time, 
 | An amount in the document the user never said | A figure was derived | Step 2: print what was given, once, and refer to the box. |
 | Two fields fill at once | They share a name | Rename. Uniqueness is per document. |
 | An accented character is missing from the page | The font lacks that glyph | Choose a family that covers the language, and say which. |
-| A library from the list is missing | This is not Anthropic's sandbox: a user's own machine, or another vendor's | Rung 3 first. Rung 4 only after an explicit yes to a named list. Never a system-wide install. |
+| A required renderer or library is missing | The selected route is unavailable in this environment | Sector-template route: try the already-present closed-list libraries, then rung 3, then rung 5; never install. Generic route: rung 3 first, then rung 4 only after an explicit yes to a named list. |
 | No way to produce a PDF here | No renderer, no library, and no Python | Step 5, rung 5. Deliver the specification in the fixed shape; do not claim a PDF was made. |
 
 ## References
@@ -306,7 +317,7 @@ into some other chatbot. Whether the account has it is checked at sending time, 
   chosen at sending time. Open it when the user wants the signature in a specific position.
 - **`references/stdlib-pdf.md`** — the standard-library recipe for rung 3: a fillable PDF with
   text fields, checkboxes and dropdowns from any Python, nothing installed, and how to check it.
-  Open it the moment an import from the closed list fails.
+  Open it when no already-present library from the closed list can complete the selected route.
 - **`references/hand-over.md`** — the fixed shape of the text-plus-specification deliverable
   for rung 5, and the companion to every PDF built on rung 3 or 4. Open it whenever no PDF can
   be written here.

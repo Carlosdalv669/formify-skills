@@ -1,6 +1,7 @@
 # A fillable PDF from the standard library alone
 
-Step 5, rung 3. Use this when an import from the closed list fails but `python3` answers with
+Step 5, rung 3. Use this when no already-present library from the closed list can complete
+the selected route, but `python3` answers with
 a version. Nothing is installed. The script below was run unchanged on Python 3.9.6 (a Mac
 with the developer tools and nothing else) and on 3.12, produced byte-identical files, and
 `pypdf` read every field back with the right type and flags. Preview, Chrome and Acrobat
