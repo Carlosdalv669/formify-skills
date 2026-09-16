@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "formify-es-real-estate",
+  "displayName": "Formify Spanish Real Estate",
+  "version": "1.0.0",
+  "description": "The six documents a Spanish estate agency signs most (nota de encargo, KYC, oferta y reserva, contrato de arras, colaboración entre agencias, entrega de llaves), bilingual Spanish plus the client's language, region-correct, signed through Formify — plus the five Formify capability skills so the plugin works on its own.",
+  "author": {
+    "name": "Formify",
+    "url": "https://formify.eu"
+  },
+  "homepage": "https://formify.eu",
+  "repository": "https://github.com/formify-e-sign/formify-skills",
+  "license": "MIT",
+  "keywords": [
+    "esignature",
+    "real-estate",
+    "spain",
+    "kyc",
+    "aml",
+    "contracts",
+    "pdf-forms",
+    "formify",
+    "arras",
+    "nota-de-encargo"
+  ],
+  "skills": [
+    "./skills/formify-es-real-estate",
+    "./skills/formify-pdf-forms",
+    "./skills/formify-send-contract",
+    "./skills/formify-verify-identity",
+    "./skills/formify-track-signatures",
+    "./skills/formify-share-link"
+  ],
+  "mcpServers": "./.mcp.json"
+}

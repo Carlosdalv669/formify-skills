@@ -36,7 +36,7 @@
     },
     {
       "name": "formify-es-real-estate",
-      "source": "./",
+      "source": "./plugins/formify-es-real-estate",
       "description": "The six documents a Spanish estate agency signs most (nota de encargo, KYC, oferta y reserva, contrato de arras, colaboración entre agencias, entrega de llaves), bilingual Spanish plus the client's language, region-correct, signed through Formify — plus the five Formify capability skills so the plugin works on its own.",
       "version": "1.0.0",
       "author": {
@@ -57,14 +57,6 @@
         "formify",
         "arras",
         "nota-de-encargo"
-      ],
-      "skills": [
-        "./skills/formify-es-real-estate",
-        "./skills/formify-pdf-forms",
-        "./skills/formify-send-contract",
-        "./skills/formify-verify-identity",
-        "./skills/formify-track-signatures",
-        "./skills/formify-share-link"
       ]
     }
   ],

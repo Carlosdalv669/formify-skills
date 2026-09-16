@@ -27,7 +27,7 @@
       "name": "formify-es-real-estate",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/formify-es-real-estate"
       },
       "policy": {
         "installation": "AVAILABLE",

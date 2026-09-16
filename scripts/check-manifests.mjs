@@ -250,13 +250,18 @@ for (const [file, ref] of pointed) {
 // manifest resolves through it. It exists so that a cloned checkout already has its skills
 // where the ~22 agents that scan `.agents/skills` will find them, which is a git-clone
 // affordance by definition.
+// `.agents/skills` and `plugins/<name>/skills` are deliberate git-clone affordances:
+// Claude/Codex marketplaces clone the repo and resolve skills relative to the plugin
+// source. npm drops symlinks, but those channels never install through the npm tarball.
 const SYMLINK_OK = new Set([join(".agents", "skills")]);
-for (const dir of ["skills", ".claude-plugin", ".codex-plugin", ".agents", "assets"]) {
+const pluginSkillsSymlink = (full) => /^plugins\/[^/]+\/skills$/.test(full);
+for (const dir of ["skills", ".claude-plugin", ".codex-plugin", ".agents", "assets", "plugins"]) {
   const walk = (d) => {
     for (const e of readdirSync(d, { withFileTypes: true })) {
       const full = join(d, e.name);
-      if (e.isSymbolicLink() && !SYMLINK_OK.has(full)) fail(`${full} is a symbolic link — npm drops symlinks when packing, so it would be missing for every npm and npx install`);
-      else if (e.isDirectory()) walk(full);
+      if (e.isSymbolicLink() && !SYMLINK_OK.has(full) && !pluginSkillsSymlink(full)) {
+        fail(`${full} is a symbolic link — npm drops symlinks when packing, so it would be missing for every npm and npx install`);
+      } else if (e.isDirectory() && !e.isSymbolicLink()) walk(full);
     }
   };
   if (existsSync(dir)) walk(dir);
