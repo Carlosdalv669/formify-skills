@@ -357,6 +357,11 @@ with BankID before she signs.
 Who still hasn't signed the contract I sent last week? Remind them.
 ```
 
+```
+Turn this waiver into one link anyone can open and sign, so I can put it on our
+booking page. Tell me what it costs before you create it.
+```
+
 ---
 
 ## Why this exists
