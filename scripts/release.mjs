@@ -185,7 +185,7 @@ function bump(next) {
   check(true);
   console.log(`${now} → ${next} in ${all.length} places.\n`);
   for (const p of all) console.log(`  ${p.path}`);
-  console.log(`\nNothing was committed. Next:\n  npm run check\n  git commit -am "release ${next}" && git tag v${next} && git push --follow-tags`);
+  console.log(`\nNothing was committed. Next:\n  npm run check\n  git commit -am "release ${next}" && git tag v${next}\n  git push && git push origin v${next}`);
 }
 
 const arg = process.argv[2];

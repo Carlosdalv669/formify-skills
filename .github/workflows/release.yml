@@ -3,7 +3,12 @@ name: release
 # Tag-driven, so an ordinary push to main can never publish a version.
 # Cut a release with:
 #   npm run release <version> && npm run check
-#   git commit -am "release <version>" && git tag v<version> && git push --follow-tags
+#   git commit -am "release <version>" && git tag v<version>
+#   git push && git push origin v<version>
+#
+# Push the tag by name. `git push --follow-tags` looks right and silently does
+# nothing here: it carries annotated tags only, and `git tag <name>` makes a
+# lightweight one. v1.5.0 was cut, pushed that way, and never left the machine.
 on:
   push:
     tags: ["v*"]
