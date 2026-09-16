@@ -143,6 +143,25 @@ if (agentsMarket) {
   for (const s of listed) {
     if (!onDisk.includes(s)) fail(`.agents/plugins/marketplace.json: lists ${s}, which is not a directory under skills/`);
   }
+  // Codex loads each marketplace entry from source.path and needs a .codex-plugin
+  // overlay with skills: "./skills/" — without it the plugin installs empty (Nutrient #16).
+  for (const p of agentsMarket.plugins) {
+    const src = typeof p.source === "string" ? p.source : p.source?.path;
+    if (!src) { fail(`.agents/plugins/marketplace.json: entry "${p.name}" has no usable source`); continue; }
+    const rootDir = src.replace(/^\.\//, "") || ".";
+    const codexPath = join(rootDir, ".codex-plugin", "plugin.json");
+    if (!existsSync(codexPath)) {
+      fail(`${codexPath}: missing — Codex installs "${p.name}" with no skills`);
+      continue;
+    }
+    const codex = read(codexPath);
+    if (codex.skills !== "./skills/") {
+      fail(`${codexPath}: skills must be "./skills/" (got ${JSON.stringify(codex.skills)})`);
+    }
+    if (!existsSync(join(rootDir, "skills"))) {
+      fail(`${rootDir}/skills: missing — Codex has nowhere to load skills from`);
+    }
+  }
 }
 
 if (existsSync("skills.sh.json")) {
@@ -256,11 +275,13 @@ for (const [file, ref] of pointed) {
 const SYMLINK_OK = new Set([join(".agents", "skills")]);
 // plugins/<name>/skills/<skill> → ../../../skills/<skill> (git marketplace only; npm drops these)
 const pluginSkillSymlink = (full) => /^plugins\/[^/]+\/skills\/[^/]+$/.test(full);
+// plugins/<name>/assets → ../../assets (Codex icons in the plugin overlay; git marketplace only)
+const pluginAssetsSymlink = (full) => /^plugins\/[^/]+\/assets$/.test(full);
 for (const dir of ["skills", ".claude-plugin", ".codex-plugin", ".agents", "assets", "plugins"]) {
   const walk = (d) => {
     for (const e of readdirSync(d, { withFileTypes: true })) {
       const full = join(d, e.name);
-      if (e.isSymbolicLink() && !SYMLINK_OK.has(full) && !pluginSkillSymlink(full)) {
+      if (e.isSymbolicLink() && !SYMLINK_OK.has(full) && !pluginSkillSymlink(full) && !pluginAssetsSymlink(full)) {
         fail(`${full} is a symbolic link — npm drops symlinks when packing, so it would be missing for every npm and npx install`);
       } else if (e.isDirectory() && !e.isSymbolicLink()) walk(full);
     }

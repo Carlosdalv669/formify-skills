@@ -193,12 +193,15 @@ covers both.
 
 ![Adding the Formify marketplace in the Codex desktop app](demo/codex/1-add-marketplace.gif)
 
-#### Step 2 — install the plugin
+#### Step 2 — install a plugin
 
-Formify now appears in your marketplace list. Install the plugin from there, and use
-**Upgrade** on that row whenever you want the newest version.
+The **Formify** marketplace lists two plugins — install the one that matches your work:
 
-That brings the skills and the Formify connection together, exactly as in Claude.
+- **Formify Core** — e-signature for any business (five skills)
+- **Formify for Real Estate Agencies** — Core plus the Spanish estate-agency pack (six skills; includes Core, so you do not need both)
+
+Use **Upgrade** on that row whenever you want the newest version. That brings the skills
+and the Formify connection together, exactly as in Claude.
 
 ---
 

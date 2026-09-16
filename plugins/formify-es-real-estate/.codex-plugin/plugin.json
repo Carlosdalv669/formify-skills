@@ -1,0 +1,50 @@
+{
+  "name": "formify-es-real-estate",
+  "version": "1.0.0",
+  "description": "Formify for Real Estate Agencies (Spain) — Formify Core plus the Spanish estate-agency niche: nota de encargo, buyer/seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover. Bilingual, region-correct, ready to sign. Includes the full Core skill set; you do not need Formify Core separately.",
+  "author": {
+    "name": "Formify",
+    "url": "https://formify.eu"
+  },
+  "homepage": "https://formify.eu",
+  "repository": "https://github.com/formify-e-sign/formify-skills",
+  "license": "MIT",
+  "keywords": [
+    "esignature",
+    "real-estate",
+    "spain",
+    "kyc",
+    "aml",
+    "contracts",
+    "pdf-forms",
+    "formify",
+    "arras",
+    "nota-de-encargo"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Formify for Real Estate Agencies",
+    "shortDescription": "Formify Core plus Spanish estate-agency documents",
+    "longDescription": "Formify for Real Estate Agencies (Spain) includes everything in Formify Core, plus the Spanish estate-agency niche: nota de encargo, buyer and seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover. Documents are bilingual and region-correct, ready to sign. You do not need Formify Core separately.",
+    "developerName": "Formify",
+    "category": "Productivity",
+    "iconSmall": "./assets/icon-128.png",
+    "iconLarge": "./assets/icon-512.png",
+    "websiteURL": "https://formify.eu",
+    "supportURL": "https://app.formify.eu/",
+    "privacyPolicyURL": "https://formify.eu/privacy/policy",
+    "termsOfServiceURL": "https://formify.eu/privacy/terms",
+    "brandColor": "#3775BB",
+    "defaultPrompt": [
+      "Prepárame una nota de encargo",
+      "Send buyer KYC for this property",
+      "Create a contrato de arras",
+      "Who still needs to sign the reserva?"
+    ],
+    "capabilities": [
+      "Read",
+      "Write"
+    ]
+  }
+}
