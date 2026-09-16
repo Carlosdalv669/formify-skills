@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "formify-es-real-estate",
-  "displayName": "Formify Spanish Real Estate",
+  "displayName": "Formify + Spanish Real Estate",
   "version": "1.0.0",
-  "description": "The six documents a Spanish estate agency signs most (nota de encargo, KYC, oferta y reserva, contrato de arras, colaboración entre agencias, entrega de llaves), bilingual Spanish plus the client's language, region-correct, signed through Formify — plus the five Formify capability skills so the plugin works on its own.",
+  "description": "Formify plus the Spanish real-estate niche. For estate agents in Spain: nota de encargo, buyer/seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover — bilingual, region-correct, ready to sign. Includes the full Formify skill set, so you do not need to install Formify separately.",
   "author": {
     "name": "Formify",
     "url": "https://formify.eu"
