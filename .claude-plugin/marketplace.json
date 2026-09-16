@@ -13,7 +13,7 @@
     {
       "name": "formify",
       "source": "./plugins/formify",
-      "description": "Build fillable PDF forms and contracts, send them for e-signature or publish them as one public signing link, verify signers with BankID or an ID scan, and track what happens after sending.",
+      "description": "For any business that needs e-signature — not industry-specific. Build fillable PDF forms and contracts, send them for signature or publish one signing link, verify signers with BankID or an ID scan, and track what happens after sending. Choose Formify + Spanish Real Estate instead if you are an estate agent in Spain.",
       "version": "1.5.0",
       "author": {
         "name": "Formify",
@@ -34,7 +34,7 @@
     {
       "name": "formify-es-real-estate",
       "source": "./plugins/formify-es-real-estate",
-      "description": "The six documents a Spanish estate agency signs most (nota de encargo, KYC, oferta y reserva, contrato de arras, colaboración entre agencias, entrega de llaves), bilingual Spanish plus the client's language, region-correct, signed through Formify — plus the five Formify capability skills so the plugin works on its own.",
+      "description": "Formify plus the Spanish real-estate niche. For estate agents in Spain: nota de encargo, buyer/seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover — bilingual, region-correct, ready to sign. Includes the full Formify skill set, so you do not need to install Formify separately.",
       "version": "1.0.0",
       "author": {
         "name": "Formify",
