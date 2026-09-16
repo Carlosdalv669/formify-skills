@@ -1,7 +1,7 @@
 {
   "name": "formify",
   "version": "1.5.0",
-  "description": "Build fillable PDF forms and contracts, send them for e-signature or publish them as one public signing link, verify signers with BankID or an ID scan, and track what happens after sending.",
+  "description": "Formify Core \u2014 for any business that needs e-signature. Build fillable PDF forms and contracts, send them for signature or publish one signing link, verify signers with BankID or an ID scan, and track what happens after sending. Not industry-specific. Estate agents in Spain should install Formify for Real Estate Agencies instead.",
   "author": {
     "name": "Formify",
     "url": "https://formify.eu"
@@ -20,9 +20,9 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Formify",
+    "displayName": "Formify Core",
     "shortDescription": "AI-assisted e-signing",
-    "longDescription": "Formify turns an assistant into someone who can prepare a contract, place the signature fields correctly, and get it signed — either by inviting the people you name, or by publishing one reusable link that anyone can open and sign, with each signer getting their own document. It can verify the person on the other end with BankID, an ID document scan, a live face check or a company lookup. Building the document is free and works without an account; sending, publishing and signing use your Formify account.",
+    "longDescription": "Formify turns an assistant into someone who can prepare a contract, place the signature fields correctly, and get it signed \u2014 either by inviting the people you name, or by publishing one reusable link that anyone can open and sign, with each signer getting their own document. It can verify the person on the other end with BankID, an ID document scan, a live face check or a company lookup. Building the document is free and works without an account; sending, publishing and signing use your Formify account.",
     "developerName": "Formify",
     "category": "productivity",
     "iconSmall": "./assets/icon-128.png",

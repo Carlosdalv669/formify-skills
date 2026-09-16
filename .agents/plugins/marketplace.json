@@ -1,7 +1,7 @@
 {
   "name": "formify",
   "interface": {
-    "displayName": "Formify"
+    "displayName": "Formify Core"
   },
   "plugins": [
     {
