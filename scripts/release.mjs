@@ -80,8 +80,8 @@ const skillBodyPlace = (path) => ({
   },
 });
 
-// A field may carry one `*` segment, which fans out over an array. Every marketplace entry
-// has its own version, and a list would silently miss the next one added.
+// A field may carry one `*` segment, which fans out over an array. Core release only
+// locks the core marketplace entry; sector plugins keep their own versions.
 function expand(entry) {
   if (!entry.field.includes("*")) return [entry];
   if (!existsSync(entry.path)) return [entry];
@@ -91,15 +91,33 @@ function expand(entry) {
   return arr.map((_, i) => ({ ...entry, field: entry.field.replace(".*.", `.${i}.`) }));
 }
 
+const isSectorSkill = (path) => {
+  const fm = readFileSync(path, "utf8").match(/^---\n([\s\S]*?)\n---\n/);
+  return fm ? /^\s{2}countries:\s*\S/m.test(fm[1]) : false;
+};
+
 function places() {
-  const out = cfg.files.flatMap(expand).map(jsonPlace);
+  const coreName = JSON.parse(readFileSync("plugin.json", "utf8")).name;
+  const out = [];
+  for (const entry of cfg.files.flatMap(expand)) {
+    // plugins.*.version expands to every marketplace entry; only the core plugin
+    // shares the package version. Sector entries bump independently.
+    const m = entry.field.match(/^plugins\.(\d+)\.version$/);
+    if (entry.path === ".claude-plugin/marketplace.json" && m) {
+      const market = JSON.parse(readFileSync(entry.path, "utf8"));
+      if (market.plugins[Number(m[1])]?.name !== coreName) continue;
+    }
+    out.push(jsonPlace(entry));
+  }
   if (cfg.skills) {
     const [dir, , file] = cfg.skills.glob.split("/");
     for (const d of readdirSync(dir, { withFileTypes: true })) {
       if (!d.isDirectory()) continue;
       const p = join(dir, d.name, file);
-      if (existsSync(p)) { out.push(skillPlace(p, cfg.skills.field)); out.push(skillBodyPlace(p)); }
-      else note(`${p}: declared by ${CONFIG} but missing`);
+      if (!existsSync(p)) { note(`${p}: declared by ${CONFIG} but missing`); continue; }
+      if (isSectorSkill(p)) continue;
+      out.push(skillPlace(p, cfg.skills.field));
+      out.push(skillBodyPlace(p));
     }
   }
   return out;

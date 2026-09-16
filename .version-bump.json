@@ -19,10 +19,11 @@
     },
     {
       "path": ".claude-plugin/marketplace.json",
-      "field": "plugins.*.version"
+      "field": "plugins.*.version",
+      "//": "release.mjs keeps only the core plugin entry in lockstep; sector plugin versions stay independent."
     }
   ],
-  "//skills": "Frontmatter version in every skill. A glob, not a list, so adding a skill needs no edit here.",
+  "//skills": "Frontmatter version in every capability skill. Sector skills (metadata.countries) are skipped by release.mjs so a vertical can ship on its own version.",
   "skills": {
     "glob": "skills/*/SKILL.md",
     "field": "metadata.version"

@@ -54,9 +54,13 @@ Every recording on this page is the real setup with personal details blurred. Th
 
 ## Install
 
-Most people use Formify inside Claude Desktop or the Codex desktop app. Both install the
-same thing: **one plugin** that brings the skills and the connection to your Formify
-account together.
+Most people use Formify inside Claude Desktop or the Codex desktop app. Both install from
+the same marketplace: **one link, two plugins**. Install **Formify** for the five
+capability skills (forms, send, verify, track, share-link). Estate agents in Spain who
+want the document pack install **Formify Spanish Real Estate** instead — or as well —
+which adds `formify-es-real-estate` and still includes the five capability skills so it
+works on its own. A construction engineer who only installs Formify never receives the
+Spanish real-estate skill.
 
 | You work in… | Go to | Terminal? |
 |---|---|---|
@@ -213,6 +217,12 @@ after the other, not pasted together.
 /plugin install formify@formify
 ```
 
+Spanish estate agents who want the sector pack:
+
+```
+/plugin install formify-es-real-estate@formify
+```
+
 Unlike the Desktop app's marketplace dialog, this takes any public repository.
 
 **Codex CLI**
@@ -220,6 +230,10 @@ Unlike the Desktop app's marketplace dialog, this takes any public repository.
 ```bash
 codex plugin marketplace add formify-e-sign/formify-skills
 codex plugin add formify@formify
+```
+
+```bash
+codex plugin add formify-es-real-estate@formify
 ```
 
 `codex plugin list` shows the result, and `codex plugin marketplace upgrade` pulls a newer
@@ -309,18 +323,21 @@ Manus and claude.ai expect.
 npx skills add formify-e-sign/formify-skills
 ```
 
-Installs into the agent's skill directory — `.agents/skills`, which around twenty agents
-read directly, with Claude Code and Eve symlinked to it.
+Installs the five capability skills into the agent's skill directory — `.agents/skills`,
+which around twenty agents read directly, with Claude Code and Eve symlinked to it. The
+Spanish real-estate skill is **opt-in**: it carries `metadata.internal: true`, so a bare
+`npx skills add` never pulls it for every user.
 
 ```bash
-npx skills add formify-e-sign/formify-skills --list          # see what is in here first
+npx skills add formify-e-sign/formify-skills --list          # five capability skills listed
 npx skills add formify-e-sign/formify-skills --skill formify-pdf-forms
+npx skills add formify-e-sign/formify-skills --skill formify-es-real-estate   # Spanish estate pack only
 npx skills add formify-e-sign/formify-skills -g              # global, across projects
 ```
 
-**These skills contain no executable code.** Every file is Markdown or YAML — no `scripts/`,
-nothing that runs. A skill is instructions an agent reads, and the usual advice to inspect
-`scripts/` before installing has nothing to inspect here.
+**Capability skills contain no executable code** (Markdown and YAML only). The sector skill
+`formify-es-real-estate` also ships helper scripts under `scripts/` for PDF rendering when
+the runtime can run them — inspect those before a global install if your policy requires it.
 
 #### In a repository, with no install at all
 

@@ -1,0 +1,56 @@
+{
+ "skill_name": "formify-es-real-estate",
+ "industry": "real-estate",
+ "country": "es",
+ "segment": "Estate agents in Spain serving international clients",
+ "skeleton_version": "2.2.0",
+ "language_mode": "bilingual",
+ "master_language": "es",
+ "second_column_default": "en",
+ "profiles": [
+  "official",
+  "professional",
+  "light"
+ ],
+ "document_types": [
+  "encargo",
+  "kyc",
+  "reserva",
+  "arras",
+  "colaboracion",
+  "llaves"
+ ],
+ "requested_document_count": 6,
+ "most_used_document": "colaboracion",
+ "footer": {
+  "credit": {
+   "es": "Elaborado con la solución de firma electrónica Formify",
+   "en": "Prepared with the Formify e-signing solution",
+   "sv": "Framtaget med Formifys lösning för e-signering",
+   "nl": "Opgesteld met de e-signing-oplossing van Formify",
+   "de": "Erstellt mit der E-Signatur-Lösung von Formify",
+   "fr": "Préparé avec la solution de signature électronique Formify",
+   "ca": "Elaborat amb la solució de signatura electrònica Formify"
+  },
+  "url": "formify.eu/solutions/real-estate/es/"
+ },
+ "signature_labels": {
+  "signature": "Firma",
+  "id_document": "Documento de identidad",
+  "signatures": "Firmas",
+  "signature_page_note": "Cada firmante firma en el espacio indicado. Las firmas se recogen electrónicamente."
+ },
+ "network": {
+  "law_check": "the official URLs in references/controls.json (BOE and regional gazettes; read only, at document time)",
+  "formify": "https://mcp.formify.eu (MCP tools) and the presigned upload URL from request_file_upload_url (curl PUT)",
+  "other": "none"
+ },
+ "master_language_files": [
+  "references/withdrawal.md"
+ ],
+ "_master_language_files": "shipped Markdown files allowed to read as Spanish: statutory texts reproduced verbatim (rule 49)",
+ "template_documents": [
+  "kyc"
+ ],
+ "_template_documents": "document types whose PDF is the same for every client and only the form fields differ; the skill offers a Formify template (and a public link) for them, references/templates-links.md"
+}
