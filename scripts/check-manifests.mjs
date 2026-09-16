@@ -254,12 +254,13 @@ for (const [file, ref] of pointed) {
 // Claude/Codex marketplaces clone the repo and resolve skills relative to the plugin
 // source. npm drops symlinks, but those channels never install through the npm tarball.
 const SYMLINK_OK = new Set([join(".agents", "skills")]);
-const pluginSkillsSymlink = (full) => /^plugins\/[^/]+\/skills$/.test(full);
+// plugins/<name>/skills/<skill> → ../../../skills/<skill> (git marketplace only; npm drops these)
+const pluginSkillSymlink = (full) => /^plugins\/[^/]+\/skills\/[^/]+$/.test(full);
 for (const dir of ["skills", ".claude-plugin", ".codex-plugin", ".agents", "assets", "plugins"]) {
   const walk = (d) => {
     for (const e of readdirSync(d, { withFileTypes: true })) {
       const full = join(d, e.name);
-      if (e.isSymbolicLink() && !SYMLINK_OK.has(full) && !pluginSkillsSymlink(full)) {
+      if (e.isSymbolicLink() && !SYMLINK_OK.has(full) && !pluginSkillSymlink(full)) {
         fail(`${full} is a symbolic link — npm drops symlinks when packing, so it would be missing for every npm and npx install`);
       } else if (e.isDirectory() && !e.isSymbolicLink()) walk(full);
     }

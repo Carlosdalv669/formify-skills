@@ -5,10 +5,14 @@
     "name": "Formify",
     "url": "https://formify.eu"
   },
+  "metadata": {
+    "description": "Formify e-signature and identity verification for AI agents",
+    "pluginRoot": "./plugins"
+  },
   "plugins": [
     {
       "name": "formify",
-      "source": "./",
+      "source": "./plugins/formify",
       "description": "Build fillable PDF forms and contracts, send them for e-signature or publish them as one public signing link, verify signers with BankID or an ID scan, and track what happens after sending.",
       "version": "1.5.0",
       "author": {
@@ -25,13 +29,6 @@
         "identity-verification",
         "kyc",
         "bankid"
-      ],
-      "skills": [
-        "./skills/formify-pdf-forms",
-        "./skills/formify-send-contract",
-        "./skills/formify-verify-identity",
-        "./skills/formify-track-signatures",
-        "./skills/formify-share-link"
       ]
     },
     {
@@ -59,8 +56,5 @@
         "nota-de-encargo"
       ]
     }
-  ],
-  "metadata": {
-    "description": "Formify e-signature and identity verification for AI agents"
-  }
+  ]
 }

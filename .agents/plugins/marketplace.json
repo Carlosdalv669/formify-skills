@@ -8,7 +8,7 @@
       "name": "formify",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/formify"
       },
       "policy": {
         "installation": "AVAILABLE",
