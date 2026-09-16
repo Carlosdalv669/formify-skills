@@ -50,8 +50,12 @@ lose the user's trust.
 
 **A live link is billed, and creating one is not reversible in the way users expect.** On the
 credits pricing model every live link is a billed instance, charged pro rata for the rest of
-the current period and renewed each period for as long as it stays active. Read the cost
-section below before creating anything.
+the current period and renewed each period for as long as it stays active.
+
+**The signatures it collects are charged separately, as they happen.** The link is a standing
+cost; each person who signs through it is another. Users assume a link is paid for once, and
+a busy link can cost far more than the link itself — say both parts whenever cost comes up.
+Read the cost section below before creating anything.
 
 ## Procedure
 
@@ -143,7 +147,11 @@ formality: a link is a recurring billed instance, and the user has no way of kno
 the request they made.
 
 > That will create a live link, which is billed for the rest of this period and renews while
-> it stays active. Shall I go ahead?
+> it stays active. Each signature collected through it is charged separately, as it happens.
+> Shall I go ahead?
+
+Say both parts. A user told only about the link's own charge will read a month of signatures
+as a billing error.
 
 Insufficient credits fails the call and creates nothing. A suspended subscription fails it
 too. Both are clean failures — say what happened and stop, rather than retrying.
@@ -237,8 +245,9 @@ way to tell them apart.
 
 | What you see | What it means | What to do |
 |---|---|---|
-| Creation refused, insufficient credits | The account cannot fund another live instance | Say so plainly and stop. Nothing was created. Offer a named send instead, which is charged per signature. |
-| Creation refused, subscription suspended | Billing is not current | Nothing was created. Say what it needs; do not retry. |
+| Creation refused, insufficient credits | The wallet cannot cover the charge | 402. Say so plainly and stop — nothing was created. Offer a named send instead. |
+| Creation refused, subscription suspended | The account is suspended | 403. Nothing was created. Say what it needs; do not retry. |
+| The user is surprised by the bill | Only the link's own charge was explained | Two charges exist: the live link, and every signature collected through it. Say both, every time. |
 | Creation refused, capability missing | The account has no `publicLinksCreate` | Name what it would do and offer a named send instead. Never downgrade silently. |
 | The link has no URL yet | Status is `processing`; the assistant is still reading the document | Wait and read it again. This is not a failure. |
 | The edit was rejected | The link is disabled, or the caller is not its owner | A disabled link cannot be edited — duplicate it, and say it will be billed. For ownership, the owner must make the change. |
