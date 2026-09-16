@@ -1,7 +1,7 @@
 {
   "name": "formify-skills",
-  "version": "1.4.0",
-  "description": "AI agent skills for Formify — build fillable PDF forms and contracts, send them for e-signature, verify signers with BankID or an ID scan, and track what happens after sending. Works with Claude Code, Claude Desktop, Codex, Cursor and other agents.",
+  "version": "1.5.0",
+  "description": "AI agent skills for Formify — build fillable PDF forms and contracts, send them for e-signature or publish them as one public signing link, verify signers with BankID or an ID scan, and track what happens after sending. Works with Claude Code, Claude Desktop, Codex, Cursor and other agents.",
   "license": "MIT",
   "homepage": "https://formify.eu",
   "repository": {
@@ -23,7 +23,9 @@
     "identity-verification",
     "kyc",
     "bankid",
-    "eidas"
+    "eidas",
+    "public-links",
+    "signing-link"
   ],
   "files": [
     "skills",
