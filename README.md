@@ -198,7 +198,10 @@ covers both.
 The **Formify** marketplace lists two plugins — install the one that matches your work:
 
 - **Formify Core** — e-signature for any business (five skills)
-- **Formify for Real Estate Agencies** — Core plus the Spanish estate-agency pack (six skills; includes Core, so you do not need both)
+- **Formify for Real Estate Agencies** — Core plus the Spanish estate-agency pack (six skills)
+
+Pick one. Real Estate already includes Core — installing both duplicates skills and the
+Formify connection.
 
 Use **Upgrade** on that row whenever you want the newest version. That brings the skills
 and the Formify connection together, exactly as in Claude.

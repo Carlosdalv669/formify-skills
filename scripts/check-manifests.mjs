@@ -250,15 +250,34 @@ for (const [file, u] of urls) if (u !== URL) fail(`${file}: MCP url ${u} != ${UR
 // broken icon or a missing context file for anyone installing from npm.
 const allow = read("package.json").files ?? [];
 const packed = (rel) => allow.some((a) => rel === a || rel.startsWith(a.replace(/\/$/, "") + "/"));
+const rootCodexIface = read(".codex-plugin/plugin.json").interface ?? {};
 const pointed = [
-  [".codex-plugin/plugin.json", read(".codex-plugin/plugin.json").interface?.iconSmall],
-  [".codex-plugin/plugin.json", read(".codex-plugin/plugin.json").interface?.iconLarge],
+  [".codex-plugin/plugin.json", rootCodexIface.iconSmall],
+  [".codex-plugin/plugin.json", rootCodexIface.iconLarge],
+  [".codex-plugin/plugin.json", rootCodexIface.composerIcon],
+  [".codex-plugin/plugin.json", rootCodexIface.logo],
 ];
 for (const [file, ref] of pointed) {
   if (!ref) continue;
   const rel = ref.replace(/^\.\//, "");
   if (!existsSync(rel)) fail(`${file}: points at ${ref}, which does not exist`);
   else if (!packed(rel)) fail(`${file}: points at ${ref}, which package.json "files" does not publish — it would dangle for anyone installing from npm`);
+}
+// Per-plugin Codex overlays (git marketplace) must declare logo + composerIcon or
+// ChatGPT/Codex Desktop falls back to a generic placeholder icon.
+for (const p of agentsMarket?.plugins ?? []) {
+  const src = typeof p.source === "string" ? p.source : p.source?.path;
+  if (!src) continue;
+  const rootDir = src.replace(/^\.\//, "") || ".";
+  const codexPath = join(rootDir, ".codex-plugin", "plugin.json");
+  if (!existsSync(codexPath)) continue;
+  const iface = read(codexPath).interface ?? {};
+  for (const key of ["logo", "composerIcon", "iconSmall", "iconLarge"]) {
+    const ref = iface[key];
+    if (!ref) { fail(`${codexPath}: interface.${key} missing — Codex UI needs Formify brand icons`); continue; }
+    const abs = join(rootDir, ref.replace(/^\.\//, ""));
+    if (!existsSync(abs)) fail(`${codexPath}: interface.${key} points at ${ref}, which does not exist under ${rootDir}`);
+  }
 }
 
 // 7. No manifest may resolve a path through a symlink. npm silently drops symlinks when it

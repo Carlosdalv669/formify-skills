@@ -1,7 +1,7 @@
 {
   "name": "formify",
   "version": "1.5.0",
-  "description": "Formify Core \u2014 for any business that needs e-signature. Build fillable PDF forms and contracts, send them for signature or publish one signing link, verify signers with BankID or an ID scan, and track what happens after sending. Not industry-specific. Estate agents in Spain should install Formify for Real Estate Agencies instead.",
+  "description": "Formify Core — for any business that needs e-signature. Build fillable PDF forms and contracts, send them for signature or publish one signing link, verify signers with BankID or an ID scan, and track what happens after sending. Not industry-specific. Spanish estate agencies should install Formify for Real Estate Agencies instead (that pack already includes Core — do not install both).",
   "author": {
     "name": "Formify",
     "url": "https://formify.eu"
@@ -22,11 +22,13 @@
   "interface": {
     "displayName": "Formify Core",
     "shortDescription": "AI-assisted e-signing for any business",
-    "longDescription": "Formify Core turns an assistant into someone who can prepare a contract, place the signature fields correctly, and get it signed \u2014 either by inviting the people you name, or by publishing one reusable link that anyone can open and sign, with each signer getting their own document. It can verify the person on the other end with BankID, an ID document scan, a live face check or a company lookup. Building the document is free and works without an account; sending, publishing and signing use your Formify account. Not industry-specific \u2014 Spanish estate agencies should install Formify for Real Estate Agencies instead.",
+    "longDescription": "Formify Core turns an assistant into someone who can prepare a contract, place the signature fields correctly, and get it signed — either by inviting the people you name, or by publishing one reusable link that anyone can open and sign, with each signer getting their own document. It can verify the person on the other end with BankID, an ID document scan, a live face check or a company lookup. Building the document is free and works without an account; sending, publishing and signing use your Formify account. Not industry-specific. If you install Formify for Real Estate Agencies, uninstall this plugin — that pack already includes Core, and installing both duplicates skills and the Formify connection.",
     "developerName": "Formify",
     "category": "Productivity",
     "iconSmall": "./assets/icon-128.png",
     "iconLarge": "./assets/icon-512.png",
+    "composerIcon": "./assets/icon-128.png",
+    "logo": "./assets/icon-512.png",
     "websiteURL": "https://formify.eu",
     "supportURL": "https://app.formify.eu/",
     "privacyPolicyURL": "https://formify.eu/privacy/policy",

@@ -1,7 +1,7 @@
 {
   "name": "formify-es-real-estate",
   "version": "1.0.0",
-  "description": "Formify for Real Estate Agencies (Spain) — Formify Core plus the Spanish estate-agency niche: nota de encargo, buyer/seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover. Bilingual, region-correct, ready to sign. Includes the full Core skill set; you do not need Formify Core separately.",
+  "description": "Formify for Real Estate Agencies (Spain) — Formify Core plus the Spanish estate-agency niche: nota de encargo, buyer/seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover. Bilingual, region-correct, ready to sign. Includes the full Core skill set — do not install Formify Core as well.",
   "author": {
     "name": "Formify",
     "url": "https://formify.eu"
@@ -26,11 +26,13 @@
   "interface": {
     "displayName": "Formify for Real Estate Agencies",
     "shortDescription": "Formify Core plus Spanish estate-agency documents",
-    "longDescription": "Formify for Real Estate Agencies (Spain) includes everything in Formify Core, plus the Spanish estate-agency niche: nota de encargo, buyer and seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover. Documents are bilingual and region-correct, ready to sign. You do not need Formify Core separately.",
+    "longDescription": "Formify for Real Estate Agencies (Spain) includes everything in Formify Core, plus the Spanish estate-agency niche: nota de encargo, buyer and seller KYC, oferta y reserva, contrato de arras, inter-agency collaboration and key handover. Documents are bilingual and region-correct, ready to sign. Install this alone — do not also install Formify Core, or you will get duplicate skills and two Formify connections.",
     "developerName": "Formify",
     "category": "Productivity",
     "iconSmall": "./assets/icon-128.png",
     "iconLarge": "./assets/icon-512.png",
+    "composerIcon": "./assets/icon-128.png",
+    "logo": "./assets/icon-512.png",
     "websiteURL": "https://formify.eu",
     "supportURL": "https://app.formify.eu/",
     "privacyPolicyURL": "https://formify.eu/privacy/policy",
