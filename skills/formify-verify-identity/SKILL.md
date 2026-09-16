@@ -98,6 +98,14 @@ common failure in this area — see `formify-send-contract` for placement.
 
 Methods are set per signer. Different signers on one document can use different methods.
 
+**All four work on a public link too**, with the same capability gates and the same two-box
+rule for the ID scan. The difference is that a link's signature entries are slots rather than
+people, so the method is chosen per slot, before anyone is known — every person who opens that
+link is verified the same way. That is usually the point: an intake form that requires an ID
+scan verifies whoever turns up, without the sender knowing their name in advance. Placement is
+stricter there — a link inherits no coordinates from anything, so every box must be given
+explicitly. See `formify-share-link`.
+
 ### 3. Decide what goes inside the document
 
 Only if data must live in the document itself. Read `references/tink-attributes.md` and

@@ -1,6 +1,6 @@
 ---
 name: formify-send-contract
-description: 'Send a contract or document for e-signature through Formify. Use when sending something to be signed, from a saved template, an uploaded PDF, or a document drafted in this conversation. Triggers on "send for signature", "send this contract", "e-sign", "signing request", "skicka för signering", "skicka kontrakt", "enviar para firmar". Not for checking who has signed afterwards: see formify-track-signatures.'
+description: 'Send a contract or document for e-signature through Formify. Use when sending something to be signed, from a saved template, an uploaded PDF, or a document drafted in this conversation. Triggers on "send for signature", "send this contract", "e-sign", "signing request", "skicka för signering", "skicka kontrakt", "enviar para firmar". Not for a reusable link anyone can sign (formify-share-link) or checking who signed (formify-track-signatures).'
 license: MIT
 metadata:
   version: "1.4.0"
@@ -27,6 +27,10 @@ the signature fields, let the user check the result, and send it to the people w
 - **Choosing an identity check** → `formify-verify-identity` decides *what* verification is
   needed; this skill configures it on the signer.
 - **Anything after the send** → `formify-track-signatures`.
+- **One reusable link that anyone may open and sign** → `formify-share-link`. This skill
+  invites named people to one document. That one publishes a link with no recipients, and
+  produces a separate document per signer. If the user cannot name who will sign, they want
+  the other skill.
 
 ## Preconditions
 
@@ -62,21 +66,27 @@ signature placement may be wrong.
 **From a PDF.** The file must not be password-protected, and must not already carry a
 digital signature from another service. Check before uploading; neither can be removed here.
 
-Three upload routes, **exactly one per upload** — a URL, a staged upload id, or the bytes.
-Try them in this order and say which one you used:
+Four upload routes, **exactly one per upload** — a host file reference, a URL, a staged
+upload id, or the bytes. Try them in this order and say which one you used:
 
-1. **A public HTTPS URL** — works in every environment. Prefer it whenever a URL exists.
-2. **A staged upload**, when shell commands are available: request the upload URL, run the
+1. **A file reference the host supplied**, when the user attached the file and this
+   environment passes attachments through to tools. Pass it exactly as given; the server
+   fetches the bytes itself. Never build one by hand and never put a local path in it.
+   If the user did attach a file but no reference arrived, retry the call once before
+   falling to another route — the reference sometimes lands on the second attempt.
+2. **A public HTTPS URL** — works in every environment. Prefer it whenever a URL exists.
+3. **A staged upload**, when shell commands are available: request the upload URL, run the
    returned command, and wait for it to return success **before** registering the file.
    The upload goes to the host named in the returned URL — normally the Formify MCP host —
    not to the document API host.
    **Requesting a new staged upload replaces any active one for that user.** Stage and
    consume one file completely before starting the next, or the earlier one is lost.
-3. **Base64**, when the complete untruncated bytes are available here. This is supported.
+4. **Base64**, when the complete untruncated bytes are available here. This is supported.
    It needs the filename alongside it. **Verify the bytes are complete before sending them.**
    Assistants routinely truncate long strings, and a truncated base64 payload uploads a
-   corrupt PDF that fails silently rather than erroring — prefer route 1 or 2 whenever either
-   is available.
+   corrupt PDF that fails silently rather than erroring — prefer an earlier route whenever
+   one is available. The practical ceiling is small: base64 is a third larger than the file,
+   so anything past roughly 30–50 kB of PDF exceeds what can be emitted in one message.
 
 The ceiling is 50 MB per file.
 
@@ -86,7 +96,16 @@ If one route fails, say which and offer another. Do not retry the same one.
 for signing. The order given is the page order. The originals are kept, so a merge is safe
 to redo.
 
-**Drafted here.** Build it with `formify-pdf-forms`, then continue from route 2 or 3.
+**Drafted here.** Build it with `formify-pdf-forms`, then continue from route 3 or 4.
+
+**From something already sent.** A document that went out before can be copied — its file,
+signature fields, signers, language, sharing and AI assistant come with it. The copy arrives
+as a **draft, and nothing is sent**: that is deliberate, because re-sending a contract to the
+same people on one click is almost never what was meant. Review it, adjust, then send. A draft
+can be copied the same way, which is the cheapest way to build several similar documents from
+one prepared starting point. Neither copy costs anything; the signature charge happens on the
+send, as always. Signature progress is never copied — every field in a copy starts unsigned.
+Any payment requirement on the source **is** carried over, so check it before sending.
 
 ### 3. Discover the fields, and offer to pre-fill
 
@@ -252,10 +271,12 @@ signers, regenerate the document, or discard it.
 keeps its identifier to come back to. Do not send it, and do not delete it. A user who says
 "not now" has chosen that state, and modelling it as "discard" throws away their work.
 
-Two things about drafts worth knowing:
+Three things about drafts worth knowing:
 
-- **Drafts work from an uploaded file, not from a template.** A template cannot be previewed
-  this way.
+- **A draft starts from exactly one source: an uploaded file or a template.** Supplying both,
+  or neither, is an error. Starting from a template is how you preview one before anyone is
+  contacted — its document and signature fields are copied into the draft, you check or adjust
+  them, then send. The template itself is never touched.
 - **Updating a draft replaces its configuration.** Always read the draft first, and send
   back everything you want to keep — not only the signers, but the field values, name,
   invitation language, personal message, AI assistant, sharing settings and signing order. Anything
@@ -320,7 +341,7 @@ job ended at the send.
 | Signature covers the text | The field is opaque | Move it to clear space. Where there is none, shrink it with a scale factor between 0.25 and 1.5 — never leave it overlapping. |
 | ID-scan send fails | The ID-scan box was not placed | Both boxes are required for that method. |
 | Signers vanished after an update | The draft update replaced the configuration | Read the draft, resend the complete signer list. |
-| A template will not preview | Drafts require an uploaded file | Send it directly, or upload the PDF separately to preview. |
+| Draft creation rejected | Both a file and a template were supplied, or neither | A draft takes exactly one source. Send one. |
 | An invitation language was refused | Only English, Swedish and Spanish exist | Offer the document in their language instead. |
 | The account lacks a channel or method | Capability off | Name it, say what it does, offer the best available alternative. |
 

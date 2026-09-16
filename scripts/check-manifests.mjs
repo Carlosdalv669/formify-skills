@@ -122,6 +122,40 @@ for (const s of onDisk) {
   }
 }
 
+// 3b. The two manifests outside the Claude tree list the same skills.
+//
+// Section 3 reasons only about .claude-plugin/. The `.agents` marketplace and the skills.sh
+// grouping carry their own copies of the list, nothing derives them, and a skill missing
+// from either is simply absent on that channel — silently, since both files stay valid JSON.
+// A new skill added to the Claude manifests alone shipped exactly that way.
+const capabilitySkills = onDisk.filter((s) => !isSector(s));
+
+const agentsMarket = existsSync(".agents/plugins/marketplace.json")
+  ? read(".agents/plugins/marketplace.json")
+  : null;
+if (agentsMarket) {
+  const listed = new Set(
+    agentsMarket.plugins.flatMap((p) => (p.skills ?? []).map(skillName)),
+  );
+  for (const s of capabilitySkills) {
+    if (!listed.has(s)) fail(`.agents/plugins/marketplace.json: does not list ${s} — it is absent on the .agents channel`);
+  }
+  for (const s of listed) {
+    if (!onDisk.includes(s)) fail(`.agents/plugins/marketplace.json: lists ${s}, which is not a directory under skills/`);
+  }
+}
+
+if (existsSync("skills.sh.json")) {
+  const sh = read("skills.sh.json");
+  const listed = new Set((sh.groupings ?? []).flatMap((g) => g.skills ?? []));
+  for (const s of capabilitySkills) {
+    if (!listed.has(s)) fail(`skills.sh.json: ${s} is in no grouping — skills.sh renders it ungrouped or not at all`);
+  }
+  for (const s of listed) {
+    if (!onDisk.includes(s)) fail(`skills.sh.json: groups ${s}, which is not a directory under skills/`);
+  }
+}
+
 // 4. Every skill has the files it promises.
 for (const s of onDisk) {
   const skillFile = join("skills", s, "SKILL.md");

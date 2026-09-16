@@ -19,7 +19,8 @@
         "./skills/formify-pdf-forms",
         "./skills/formify-send-contract",
         "./skills/formify-verify-identity",
-        "./skills/formify-track-signatures"
+        "./skills/formify-track-signatures",
+        "./skills/formify-share-link"
       ]
     }
   ]

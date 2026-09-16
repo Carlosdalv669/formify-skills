@@ -14,6 +14,7 @@
       "description": "Sending, identity verification, and everything that follows.",
       "skills": [
         "formify-send-contract",
+        "formify-share-link",
         "formify-verify-identity",
         "formify-track-signatures"
       ]

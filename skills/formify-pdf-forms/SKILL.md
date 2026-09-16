@@ -33,6 +33,8 @@ document on its own. Sending it for signature is a separate step and a separate 
   BankID, ID scan, face liveness and company verification. Come back here for the fields
   those features need.
 - **Chasing an already-sent document** → `formify-track-signatures`.
+- **Publishing the finished form as one link anyone can sign** → `formify-share-link`. Build
+  the PDF here first; that skill turns it into a link.
 
 ## Preconditions
 
@@ -278,7 +280,22 @@ gives the sizes and the recipe that finds each caption by text and returns its r
 A finished form is not the end of the job the user came for. Close on the offer:
 
 > Do you want me to send this for signature? I can collect the signers and, if you need it,
-> require BankID or an ID scan before they sign.
+> require BankID or an ID scan before they sign. If this is a document you will reuse, I can
+> also save it as a template, or publish it as one link anyone can open and sign.
+
+**Say that a reusable document can be saved as a template.** A form built here is normally
+built once and used many times, and the user has no way of knowing that Formify can hold it
+with its signature fields already placed, so that a later send only has to supply the people.
+A template's signature entries are **roles, not people** — `Buyer`, `Tenant`, `Witness` —
+and contact details are left out unless the same person signs every single time. It needs the
+`templates` capability, so check before promising it. The template name is internal; signers
+never see it. A saved template can later be copied, and copying one is free.
+
+**Say that it can instead become one public link.** Where the document goes out to people
+whose names are not known in advance — an intake form, a waiver, a consent — the right shape
+is not a send at all but a single reusable link. That is `formify-share-link`, and it is worth
+naming here, because this is the moment the user understands the difference. It is billed per
+live link, so name it as an option rather than doing it.
 
 **Mention the assistant that can travel with the document.** On accounts that have it, Formify
 can attach an AI assistant to the document itself: it answers the recipient's questions while

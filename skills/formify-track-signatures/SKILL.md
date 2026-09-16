@@ -30,11 +30,14 @@ following week.
 - "The deal is off, cancel it."
 - "Send me the signed copy."
 - "Just tell me when it's signed — I don't want to keep checking."
+- "Has anyone filled in the form I shared?"
 
 ## When it does not
 
 - **Sending a document in the first place** → `formify-send-contract`.
 - **Building or editing the PDF** → `formify-pdf-forms`.
+- **Managing the public link itself** — editing it, switching it off, what it costs →
+  `formify-share-link`. Reading the documents it produced belongs here.
 
 ## Preconditions
 
@@ -47,6 +50,12 @@ irreversible.
 
 If the user does not know which document they mean, list recent documents and let them pick
 by name. Never show internal IDs; those are for tool calls.
+
+**Every list is paginated, and a short page does not mean the last page.** A listing returns
+a `nextOffset`; keep asking with it until it comes back null. A page may hold fewer items than
+the limit and still have more behind it — that is normal, not the end. Stopping at the first
+short page is how "you have three documents out for signature" gets said to someone who has
+eleven, and nothing about the answer looks wrong.
 
 ## Procedure
 
@@ -72,6 +81,21 @@ Document statuses and what they permit:
 | `awaiting_signatures` | Out with at least one person | Remind, repair, cancel |
 | `completed` | Everyone signed | Download, delete |
 | `revoked` | Cancelled | Delete |
+
+**A document signed through a public link will not be in that list.** The ordinary document
+listing holds what the user *sent* to named people. A public link — one reusable link anyone
+may open — produces its own document per signer, and those live under the link, not in that
+list. So when the user asks "has anyone filled in my form yet?" and nothing turns up, do not
+report zero: ask whether it went out as a link, list their links, and read the documents that
+link has produced.
+
+Each entry carries a document identifier that behaves like any other from that point on —
+status, per-signer detail, field values and the signed copy all work normally. One thing does
+not: **only completed submissions are listed.** Someone who opened the link and abandoned it
+half-filled leaves no trace, so "nobody has signed" and "nobody finished" are the same answer
+here, and there is no way to tell them apart. Say it that way rather than implying nobody
+looked. That listing paginates like every other. Everything about the link itself — switching
+it off, editing it, what it costs — is `formify-share-link`.
 
 ### 2. Remind only the people who have not signed
 
@@ -122,6 +146,12 @@ both and let the user choose. A signer with no contact method on file cannot be 
 does not appear at all; that person cannot be repaired on a sent document.
 
 This works only on a sent document, not a draft.
+
+**This is not a public link, and the word is the trap.** What you hand over here is one
+person's private way into one document, locked to the contact method already on file. A
+public link is the opposite: no named recipient, anyone who holds it may sign, and each one
+who does gets their own document. If the user says "just give me a link I can put on our
+website", they mean the other thing — `formify-share-link`.
 
 ### 5. Correct a value before anyone has signed
 
@@ -197,6 +227,8 @@ whether it has been signed. That sentence is the whole value of the step.
 | Delete refused | The document is still live | Only completed or revoked documents can be deleted. |
 | The download link stopped working | The ten-minute window elapsed | Fetch a new one. |
 | Field values will not change | Someone has signed | The window closed. A correction now needs a new document. |
+| A document the user swears they sent is not in the list | Either the listing stopped at a short page, or it went out as a public link | Follow `nextOffset` to the end first; then check their links and read that link's documents. |
+| A link's form was opened but nothing is listed | Only completed submissions are recorded | Say that nobody has finished. An abandoned half-filled form leaves no trace either way. |
 
 ## References
 

@@ -3,5 +3,9 @@
   "references/tink-attributes.md": [
     "formify-pdf-forms",
     "formify-verify-identity"
+  ],
+  "references/signature-placement.md": [
+    "formify-send-contract",
+    "formify-share-link"
   ]
 }

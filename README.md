@@ -130,6 +130,7 @@ documents, send them, collect signatures. The skills are what make it good at th
 | `formify-send-contract` | how to send it — from a template, an uploaded PDF, or something drafted in the conversation |
 | `formify-verify-identity` | when a signature needs proof of identity, and which check to use: BankID, ID scan, face liveness |
 | `formify-track-signatures` | what to do afterwards — who has not signed, reminders, a wrong email address, cancelling |
+| `formify-share-link` | publishing one reusable link anyone can open and sign, and reading what it collected |
 
 You never name a skill. Describe the job and Claude picks the right one.
 
@@ -154,6 +155,7 @@ at a time, by hand, and the connector separately.
    | `formify-send-contract.zip` | sending a document for signature |
    | `formify-verify-identity.zip` | BankID, ID scan, face liveness, company lookup |
    | `formify-track-signatures.zip` | chasing, correcting and cancelling what you sent |
+| `formify-share-link.zip` | one public link anyone can open and sign |
 
    Do not unzip them — they are already in the shape Claude expects.
 3. Open **Customize → Skills**, then **Create skill → Upload a skill**, and choose one ZIP.
@@ -535,10 +537,11 @@ action runs with exactly the permissions that account already has.
 
 ```
 skills/                        the skills — the one canonical source
-  formify-pdf-forms/           capability: everyone gets these four
+  formify-pdf-forms/           capability: everyone gets these five
   formify-send-contract/
   formify-verify-identity/
   formify-track-signatures/
+  formify-share-link/
 demo/                          the install recordings used on this page
 .agents/skills -> skills       symlink; most agents find the skills with no install
 plugin.json  mcp.json          Agent Plugins 1.0.0

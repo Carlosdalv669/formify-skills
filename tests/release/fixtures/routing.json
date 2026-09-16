@@ -142,6 +142,77 @@
     "clarification_required": false
   },
   {
+    "id": "link-en",
+    "prompt": "I want one link I can put on our website that anyone can open and sign.",
+    "accepted_sets": [
+      [
+        "formify-share-link"
+      ]
+    ],
+    "clarification_required": false
+  },
+  {
+    "id": "link-sv",
+    "prompt": "Kan du göra en signeringslänk som vem som helst kan öppna och skriva under?",
+    "accepted_sets": [
+      [
+        "formify-share-link"
+      ]
+    ],
+    "clarification_required": false
+  },
+  {
+    "id": "link-es",
+    "prompt": "Necesito un enlace público para firmar que pueda compartir con cualquiera.",
+    "accepted_sets": [
+      [
+        "formify-share-link"
+      ]
+    ],
+    "clarification_required": false
+  },
+  {
+    "id": "link-results",
+    "prompt": "How many people have filled in the form I shared last week?",
+    "accepted_sets": [
+      [
+        "formify-share-link"
+      ],
+      [
+        "formify-track-signatures"
+      ],
+      [
+        "formify-share-link",
+        "formify-track-signatures"
+      ]
+    ],
+    "clarification_required": false
+  },
+  {
+    "id": "link-vs-send",
+    "prompt": "Send this NDA to Maria and Johan for signature.",
+    "accepted_sets": [
+      [
+        "formify-send-contract"
+      ]
+    ],
+    "clarification_required": false
+  },
+  {
+    "id": "link-identity",
+    "prompt": "Publish this waiver as a link anyone can sign, but make them scan an ID first.",
+    "accepted_sets": [
+      [
+        "formify-share-link",
+        "formify-verify-identity"
+      ],
+      [
+        "formify-share-link"
+      ]
+    ],
+    "clarification_required": false
+  },
+  {
     "id": "unrelated",
     "prompt": "Explain how to roast vegetables.",
     "accepted_sets": [
@@ -165,6 +236,9 @@
       ],
       [
         "formify-verify-identity"
+      ],
+      [
+        "formify-share-link"
       ]
     ],
     "clarification_required": true

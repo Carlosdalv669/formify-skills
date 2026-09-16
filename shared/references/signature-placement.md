@@ -1,4 +1,3 @@
-<!-- Generated from shared/references/signature-placement.md by scripts/build-skills.mjs. Edit the source, not this copy. -->
 # Placing a signature on an existing page
 
 Open this when the signature goes somewhere other than a new page at the end of the
