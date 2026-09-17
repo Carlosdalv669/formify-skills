@@ -56,3 +56,6 @@ dist/
 # Render-test scratch output and Python bytecode — never part of the product.
 tests/es-real-estate/out/
 **/__pycache__/
+
+# Local agent harness affordance — symlink skills/ here on clone; not part of the product.
+.agents/

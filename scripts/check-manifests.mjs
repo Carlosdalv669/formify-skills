@@ -122,45 +122,26 @@ for (const s of onDisk) {
   }
 }
 
-// 3b. The two manifests outside the Claude tree list the same skills.
-//
-// Section 3 reasons only about .claude-plugin/. The `.agents` marketplace and the skills.sh
-// grouping carry their own copies of the list, nothing derives them, and a skill missing
-// from either is simply absent on that channel — silently, since both files stay valid JSON.
-// A new skill added to the Claude manifests alone shipped exactly that way.
+// 3b. skills.sh grouping and Codex plugin overlays.
 const capabilitySkills = onDisk.filter((s) => !isSector(s));
 
-const agentsMarket = existsSync(".agents/plugins/marketplace.json")
-  ? read(".agents/plugins/marketplace.json")
-  : null;
-if (agentsMarket) {
-  const listed = new Set(
-    agentsMarket.plugins.flatMap((p) => (p.skills ?? []).map(skillName)),
-  );
-  for (const s of capabilitySkills) {
-    if (!listed.has(s)) fail(`.agents/plugins/marketplace.json: does not list ${s} — it is absent on the .agents channel`);
+// Codex loads each marketplace entry from source and needs a .codex-plugin overlay with
+// skills: "./skills/" — without it the plugin installs empty (Nutrient #16).
+for (const p of market.plugins) {
+  const src = typeof p.source === "string" ? p.source : p.source?.path;
+  if (!src) { fail(`.claude-plugin/marketplace.json: entry "${p.name}" has no usable source`); continue; }
+  const rootDir = src.replace(/^\.\//, "") || ".";
+  const codexPath = join(rootDir, ".codex-plugin", "plugin.json");
+  if (!existsSync(codexPath)) {
+    fail(`${codexPath}: missing — Codex installs "${p.name}" with no skills`);
+    continue;
   }
-  for (const s of listed) {
-    if (!onDisk.includes(s)) fail(`.agents/plugins/marketplace.json: lists ${s}, which is not a directory under skills/`);
+  const codex = read(codexPath);
+  if (codex.skills !== "./skills/") {
+    fail(`${codexPath}: skills must be "./skills/" (got ${JSON.stringify(codex.skills)})`);
   }
-  // Codex loads each marketplace entry from source.path and needs a .codex-plugin
-  // overlay with skills: "./skills/" — without it the plugin installs empty (Nutrient #16).
-  for (const p of agentsMarket.plugins) {
-    const src = typeof p.source === "string" ? p.source : p.source?.path;
-    if (!src) { fail(`.agents/plugins/marketplace.json: entry "${p.name}" has no usable source`); continue; }
-    const rootDir = src.replace(/^\.\//, "") || ".";
-    const codexPath = join(rootDir, ".codex-plugin", "plugin.json");
-    if (!existsSync(codexPath)) {
-      fail(`${codexPath}: missing — Codex installs "${p.name}" with no skills`);
-      continue;
-    }
-    const codex = read(codexPath);
-    if (codex.skills !== "./skills/") {
-      fail(`${codexPath}: skills must be "./skills/" (got ${JSON.stringify(codex.skills)})`);
-    }
-    if (!existsSync(join(rootDir, "skills"))) {
-      fail(`${rootDir}/skills: missing — Codex has nowhere to load skills from`);
-    }
+  if (!existsSync(join(rootDir, "skills"))) {
+    fail(`${rootDir}/skills: missing — Codex has nowhere to load skills from`);
   }
 }
 
@@ -265,7 +246,7 @@ for (const [file, ref] of pointed) {
 }
 // Per-plugin Codex overlays (git marketplace) must declare logo + composerIcon or
 // ChatGPT/Codex Desktop falls back to a generic placeholder icon.
-for (const p of agentsMarket?.plugins ?? []) {
+for (const p of market.plugins) {
   const src = typeof p.source === "string" ? p.source : p.source?.path;
   if (!src) continue;
   const rootDir = src.replace(/^\.\//, "") || ".";
@@ -284,19 +265,15 @@ for (const p of agentsMarket?.plugins ?? []) {
 // packs, so anything reached through one works from a git clone and is simply absent for
 // every npm and npx install — with no error on either side. Verified by packing the tarball.
 //
-// `.agents/skills` is the one deliberate exception and is allowlisted below: nothing in any
-// manifest resolves through it. It exists so that a cloned checkout already has its skills
-// where the ~22 agents that scan `.agents/skills` will find them, which is a git-clone
-// affordance by definition.
-// `.agents/skills` and `plugins/<name>/skills` are deliberate git-clone affordances:
-// Claude/Codex marketplaces clone the repo and resolve skills relative to the plugin
-// source. npm drops symlinks, but those channels never install through the npm tarball.
-const SYMLINK_OK = new Set([join(".agents", "skills")]);
+// `plugins/<name>/skills` are deliberate git-clone affordances: Claude/Codex marketplaces
+// clone the repo and resolve skills relative to the plugin source. npm drops symlinks, but
+// those channels never install through the npm tarball.
+const SYMLINK_OK = new Set();
 // plugins/<name>/skills/<skill> → ../../../skills/<skill> (git marketplace only; npm drops these)
 const pluginSkillSymlink = (full) => /^plugins\/[^/]+\/skills\/[^/]+$/.test(full);
 // plugins/<name>/assets → ../../assets (Codex icons in the plugin overlay; git marketplace only)
 const pluginAssetsSymlink = (full) => /^plugins\/[^/]+\/assets$/.test(full);
-for (const dir of ["skills", ".claude-plugin", ".codex-plugin", ".agents", "assets", "plugins"]) {
+for (const dir of ["skills", ".claude-plugin", ".codex-plugin", "assets", "plugins"]) {
   const walk = (d) => {
     for (const e of readdirSync(d, { withFileTypes: true })) {
       const full = join(d, e.name);
