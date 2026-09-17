@@ -52,3 +52,7 @@ CHANGELOG.md
 
 # Locally built release ZIPs. The release workflow rebuilds them from skills/.
 dist/
+
+# Render-test scratch output and Python bytecode — never part of the product.
+tests/es-real-estate/out/
+**/__pycache__/

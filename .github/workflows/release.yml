@@ -51,7 +51,8 @@ jobs:
           mkdir -p dist
           for dir in skills/*/; do
             name=$(basename "$dir")
-            (cd skills && zip -qr "../dist/$name.zip" "$name")
+            (cd skills && zip -qr "../dist/$name.zip" "$name" \
+              -x "$name/tests/*" "$name/**/__pycache__/*")
           done
           ls -l dist
 
