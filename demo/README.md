@@ -17,16 +17,17 @@ each one shows:
 |---|---|
 | `1-add-marketplace.gif` | Customize → Plugins → Add marketplace → `formify-e-sign/formify-skills` → Sync → Add |
 | `2-connect-account.gif` | Connectors tab → Connect → sign in → Connected |
-| `3-what-you-get.gif` | the installed plugin: description, categories, four skills, connector |
+| `3-what-you-get.gif` | the installed plugin: description, categories, skills, connector |
 
 ## What is in `codex/`
 
-One GIF. The Codex recording covers a single action — adding the marketplace — because from
-there the flow is the same as Claude's and the CLI covers the rest in two commands.
+One GIF plus one screenshot. The GIF covers adding the marketplace; the screenshot shows the
+two plugins in **Discover** after sync.
 
 | File | Step |
 |---|---|
 | `1-add-marketplace.gif` | Plugins → Add → Add plugin marketplace → `formify-e-sign/formify-skills` → Add marketplace |
+| `2-discover-plugins.jpg` | Discover → **Formify Core** and **Formify for Real Estate Agencies** (by formify-skills) |
 
 Nothing is blurred in it: the recording carries no conversation list, no browser, and no
 account names. Only the local home-directory path appears, in the marketplace list.

@@ -55,12 +55,11 @@ Every recording on this page is the real setup with personal details blurred. Th
 ## Install
 
 Most people use Formify inside Claude Desktop or the Codex desktop app. Both install from
-the same marketplace: **one link, two plugins**. Install **Formify** for the five
-capability skills (forms, send, verify, track, share-link). Estate agents in Spain who
-want the document pack install **Formify Spanish Real Estate** instead — or as well —
-which adds `formify-es-real-estate` and still includes the five capability skills so it
-works on its own. A construction engineer who only installs Formify never receives the
-Spanish real-estate skill.
+the same marketplace: **one link, two plugins**. Install **Formify Core** for the five
+capability skills (forms, send, verify, track, share-link). Spanish estate agents install
+**Formify for Real Estate Agencies** instead — it adds `formify-es-real-estate` and still
+includes all five Core skills, so it works on its own. Do **not** install both: Real Estate
+already bundles Core.
 
 | You work in… | Go to | Terminal? |
 |---|---|---|
@@ -92,9 +91,18 @@ on screen.
 
 5. Claude finds the repository as you type — accept the suggestion.
 6. Leave **Sync automatically** on, so our updates reach you, and select **Sync**.
-7. Formify now appears in your list with an **Add** button. Select it.
+7. Open **Discover**. You should see two plugins from **formify-skills**:
+
+   | Plugin | Tags (example) | Skills |
+   |---|---|---|
+   | **Formify Core** | New · Legal · … | 5 capability skills |
+   | **Formify for Real Estate Agencies** | New · Sales · … | 6 (Core + Spanish RE pack) |
+
+   Select **Add** on the one that matches your work — not both.
 
 ![Adding the Formify marketplace in Claude Desktop and installing the plugin](demo/claude-desktop/1-add-marketplace.gif)
+
+![Formify Core and Formify for Real Estate Agencies in the plugin Discover list](demo/codex/2-discover-plugins.jpg)
 
 *A marketplace is just an address Claude reads plugins from. Ours is a public repository, so
 nothing is downloaded to your computer and every improvement we publish reaches you.*
@@ -195,13 +203,20 @@ covers both.
 
 #### Step 2 — install a plugin
 
-The **Formify** marketplace lists two plugins — install the one that matches your work:
+Open **Discover**. The **formify-skills** marketplace lists two plugins:
 
-- **Formify Core** — e-signature for any business (five skills)
-- **Formify for Real Estate Agencies** — Core plus the Spanish estate-agency pack (six skills)
+| Plugin | What you get |
+|---|---|
+| **Formify Core** | E-signature for any business — five skills (`formify-pdf-forms`, `formify-send-contract`, `formify-verify-identity`, `formify-track-signatures`, `formify-share-link`) |
+| **Formify for Real Estate Agencies** | Core plus the Spanish estate-agency document pack — six skills (adds `formify-es-real-estate`) |
 
-Pick one. Real Estate already includes Core — installing both duplicates skills and the
-Formify connection.
+Pick **Add** on one row only. Real Estate already includes Core — installing both duplicates
+skills and the Formify connection.
+
+![Formify Core and Formify for Real Estate Agencies in the plugin Discover list](demo/codex/2-discover-plugins.jpg)
+
+*As shown: **Formify Core** (New, Legal) and **Formify for Real Estate Agencies** (New,
+Sales). Your tags may differ slightly by surface.*
 
 Use **Upgrade** on that row whenever you want the newest version. That brings the skills
 and the Formify connection together, exactly as in Claude.
@@ -329,10 +344,10 @@ Manus and claude.ai expect.
 npx skills add formify-e-sign/formify-skills
 ```
 
-Installs the five capability skills into the agent's skill directory — `.agents/skills`,
-which around twenty agents read directly, with Claude Code and Eve symlinked to it. The
-Spanish real-estate skill is **opt-in**: it carries `metadata.internal: true`, so a bare
-`npx skills add` never pulls it for every user.
+Installs the five capability skills into the agent's skill directory (often
+`.agents/skills/` or `.cursor/skills/`, depending on the harness). The Spanish real-estate
+skill is **opt-in**: it carries `metadata.internal: true`, so a bare `npx skills add` never
+pulls it for every user.
 
 ```bash
 npx skills add formify-e-sign/formify-skills --list          # five capability skills listed
@@ -347,8 +362,8 @@ the runtime can run them — inspect those before a global install if your polic
 
 #### In a repository, with no install at all
 
-Clone the repo and the skills are already where most agents look — `.agents/skills` is a
-symlink to `skills/`, which Codex, Cursor, Amp, opencode and Zed scan automatically.
+Clone the repo and point your agent at `skills/`, or symlink that directory to where your
+harness expects skills (for example `.agents/skills/` or `.cursor/skills/`).
 
 #### Manually, anywhere
 
@@ -418,6 +433,12 @@ attaching a file and pressing send.
 | **`formify-send-contract`** | Sends a document for electronic signature — from a saved template, an uploaded PDF, or one drafted in the conversation. Previews where the signature will land before anyone is contacted. |
 | **`formify-verify-identity`** | Verifies the person signing: Swedish BankID, ID document scan, live face check, company registration lookup, KYC. |
 | **`formify-track-signatures`** | Everything after the send: who has signed, remind only the ones who have not, repair a mistyped email, hand someone a link in person, cancel, download the signed copy. |
+| **`formify-share-link`** | One reusable public signing link anyone can open — for waivers, booking pages, and open enrolment where you do not know the signers' names in advance. |
+
+**Formify for Real Estate Agencies** adds **`formify-es-real-estate`**: the six documents
+Spanish estate agencies sign most (nota de encargo, KYC, reserva, arras, collaboration,
+key handover), bilingual and region-correct. Install that plugin only if you need the pack;
+it is not part of Formify Core.
 
 Building and structuring a document happens in the conversation. Sending, signing and
 identity checks run through your Formify account.
@@ -565,18 +586,20 @@ action runs with exactly the permissions that account already has.
 
 ```
 skills/                        the skills — the one canonical source
-  formify-pdf-forms/           capability: everyone gets these five
+  formify-pdf-forms/           five capability skills (Formify Core)
   formify-send-contract/
   formify-verify-identity/
   formify-track-signatures/
   formify-share-link/
+  formify-es-real-estate/      sector pack (Formify for Real Estate Agencies)
+plugins/                       two installable plugins pointing at skills/
+  formify/                     Formify Core
+  formify-es-real-estate/      Formify for Real Estate Agencies
 demo/                          the install recordings used on this page
-.agents/skills -> skills       symlink; most agents find the skills with no install
 plugin.json  mcp.json          Agent Plugins 1.0.0
 .mcp.json                      the MCP server, referenced by the manifests below
-.claude-plugin/                Claude Code plugin and marketplace entry
-.codex-plugin/                 Codex CLI plugin, with the marketplace listing block
-.agents/plugins/               Codex and ChatGPT marketplace catalogue
+.claude-plugin/                Claude marketplace (formify) — two plugin entries
+.codex-plugin/                 Codex CLI root overlay
 package.json  skills.sh.json   npm, npx, and the skills.sh gallery
 scripts/check-manifests.mjs    keeps the manifests from drifting apart
 tests/release/                 what the skills do, not just what they say
@@ -626,8 +649,8 @@ Issues and pull requests are welcome. Two rules keep the skills trustworthy:
 
 Clients decide whether to update by comparing version numbers, not content. A
 changed skill with an unchanged version reaches nobody except people who cloned the
-repo. So every change that ships is a version bump, and one script writes all ten
-places the version lives:
+repo. So every change that ships is a version bump, and one script writes every declared
+place the version lives:
 
 ```bash
 npm run release 1.2.0       # every manifest and every skill frontmatter
